@@ -34,29 +34,24 @@ public class Main {
         );
 
         Doctor doctor1 = new Doctor("luka", "tsintsadze",
-                45, "lukatsi@hospital.ge",
-                cardiology, "cardiologist", 15);
+                45, "lukatsi@yahoo.com", "cardiologist", 15);
         Doctor doctor2 = new Doctor("ana", "gogoberidze",
-                38, "ana156@hospital.ge",
-                surgery, "surgeon", 12);
+                38, "ana156@gmail.ge", "surgeon", 12);
         Doctor doctor3 = new Doctor("nikoloz", "javakhishvili",
-                52, "javakhishvili145@hospital.ge",
-                cardiology, "cardiologist", 20);
+                52, "javakhishvili145@hospital.ge", "cardiologist", 20);
 
-        Patient patient1 = new Patient("nino", "kvaratskhelia", 32, "n.kvaratskhelia@email.ge",
+        Patient patient1 = new Patient("nino", "tavadze", 32, "tavadze.@email.ru",
                 "12345", LocalDateTime.now(), 3, false);
-        Patient patient2 = new Patient("giorgi", "mamardashvili", 35, "g.mamardashvili@email.ge",
+        Patient patient2 = new Patient("giorgi", "topuria", 35, "topuria@idk.com",
                 "123456", LocalDateTime.now(), 7, true);
-        Patient patient3 = new Patient("mariam", "chikovani", 23, "m.chikovani@email.ge",
+        Patient patient3 = new Patient("mariam", "chikovani", 23, "chikovani@email.ge",
                 "1234567", LocalDateTime.now(), 5, false);
-
         Nurse nurse1 = new Nurse("tamar", "batsikadze",
-                29, "lomtadze@hospital.ge",
-                5, cardiology, true);
-
+                29, "batsikadze@idk.ge",
+                5, true);
         Nurse nurse2 = new Nurse("vakhtang", "shatirishvili",
-                35, "v.shavishvili@hospital.ge",
-                8, surgery, false);
+                35, "shatirishvili@kideRaMovifiqro.ge",
+                8, false);
 
         Apparatus apparatus1 = new Apparatus("ekg", "heart scanner", false, cardiology);
         Apparatus apparatus2 = new Apparatus("mri", "mri scanner", true, surgery);

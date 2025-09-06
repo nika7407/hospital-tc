@@ -6,16 +6,14 @@ public class Doctor extends Human {
 
     private int expirienceYears;
     private String spetialization;
-    private Department department;
 
     public Doctor(String firstName,
                   String lastName,
                   int age,
                   String email,
-                  Department department, String spetialization, int expirienceYears) {
+                  String spetialization, int expirienceYears) {
 
         super(firstName, lastName, age, email);
-        this.department = department;
         this.spetialization = spetialization;
         this.expirienceYears = expirienceYears;
     }
@@ -36,11 +34,4 @@ public class Doctor extends Human {
         this.spetialization = spetialization;
     }
 
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
 }

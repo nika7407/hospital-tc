@@ -5,16 +5,14 @@ import hospital.building.Department;
 public class Nurse extends Human {
 
     private int expirienceYears;
-    private Department department;
     private boolean practise;
 
     public Nurse(String firstName,
                  String lastName,
                  int age, String email,
-                 int expirienceYears, Department department, boolean practise) {
+                 int expirienceYears, boolean practise) {
         super(firstName, lastName, age, email);
         this.expirienceYears = expirienceYears;
-        this.department = department;
         this.practise = practise;
     }
 
@@ -24,14 +22,6 @@ public class Nurse extends Human {
 
     public void setExpirienceYears(int expirienceYears) {
         this.expirienceYears = expirienceYears;
-    }
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
     }
 
     public boolean isPractise() {
