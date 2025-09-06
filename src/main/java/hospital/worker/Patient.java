@@ -1,5 +1,7 @@
 package hospital.worker;
 
+import hospital.drug.Drug;
+
 import java.time.LocalDateTime;
 
 public class Patient extends Human {
@@ -8,6 +10,7 @@ public class Patient extends Human {
     private LocalDateTime commitDate;
     private int difficultyScale;
     private boolean dnr;
+    private Drug[] assignedDrugs = new Drug[0];
 
     public Patient(String firstName,
                    String lastName,
@@ -57,4 +60,13 @@ public class Patient extends Human {
     public int getDifficultyScale() {
         return difficultyScale;
     }
+
+    public Drug[] getAssignedDrugs() {
+        return assignedDrugs;
+    }
+
+    public void setAssignedDrugs(Drug[] assignedDrugs) {
+        this.assignedDrugs = assignedDrugs;
+    }
+
 }

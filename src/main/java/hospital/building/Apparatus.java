@@ -1,10 +1,8 @@
 package hospital.building;
 
-public class Apparatus {
+public class Apparatus extends Equipment {
 
-    private String name;
     private String description;
-    private boolean isInUse;
     private Department department;
 
     public Apparatus(String name, String description,
@@ -15,14 +13,6 @@ public class Apparatus {
         this.department = department;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -31,19 +21,36 @@ public class Apparatus {
         this.description = description;
     }
 
-    public boolean isInUse() {
-        return isInUse;
-    }
-
-    public void setInUse(boolean inUse) {
-        isInUse = inUse;
-    }
-
     public Department getDepartment() {
         return department;
     }
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("apparat name:" + name)
+                .append("\ndescription:" + description)
+                .append("\nis in use:" + isInUse)
+                .append("\ndepartment:" + department);
+        return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+        Apparatus other = (Apparatus) obj;
+        return other.name.equals(this.name)
+                && other.department.equals(this.department);
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(this.name);
     }
 }

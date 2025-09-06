@@ -5,6 +5,11 @@ import hospital.administration.AppointmentService;
 import hospital.administration.Hospital;
 import hospital.building.Apparatus;
 import hospital.building.Department;
+import hospital.drug.DrugAssignmentService;
+import hospital.drug.Painkiller;
+import hospital.drug.TestDrug;
+import hospital.guest.Guest;
+import hospital.guest.PatientVisitor;
 import hospital.worker.Doctor;
 import hospital.worker.Nurse;
 import hospital.worker.Patient;
@@ -53,6 +58,15 @@ public class Main {
                 35, "shatirishvili@kideRaMovifiqro.ge",
                 8, false);
 
+        PatientVisitor patientVisitor = new PatientVisitor(patient1,"someGuestId","kaxa",true);
+
+        Painkiller painkiller = new Painkiller("noshpa",3);
+        TestDrug testDrug = new TestDrug("experimentDrug","Do not use on blind children or deaf elders");
+
+        //assigning drugs,
+        DrugAssignmentService.assignDrug(painkiller,patient1);
+        DrugAssignmentService.assignDrug(testDrug,patient2);
+
         Apparatus apparatus1 = new Apparatus("ekg", "heart scanner", false, cardiology);
         Apparatus apparatus2 = new Apparatus("mri", "mri scanner", true, surgery);
 
@@ -86,5 +100,10 @@ public class Main {
                 new Department[]{cardiology, surgery},
                 new Appointment[]{appointment1, appointment2, appointment3}
         );
+
+        //adding guests
+        hospital.setGuests(new Guest[]{patientVisitor});
+        System.out.println("\nHospital Class initiated!");
     }
+
 }
