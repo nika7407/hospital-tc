@@ -6,10 +6,10 @@ public class Apparatus extends Equipment {
     private Department department;
 
     public Apparatus(String name, String description,
-                     boolean InUse, Department department) {
+                     boolean inUse, Department department) {
         this.name = name;
         this.description = description;
-        this.InUse = InUse;
+        this.inUse = inUse;
         this.department = department;
     }
 
@@ -34,7 +34,7 @@ public class Apparatus extends Equipment {
         StringBuilder sb = new StringBuilder();
         sb.append("apparat name:" + name)
                 .append("\ndescription:" + description)
-                .append("\nis in use:" + InUse)
+                .append("\nis in use:" + inUse)
                 .append("\ndepartment:" + department);
         return sb.toString();
     }

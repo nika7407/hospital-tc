@@ -2,15 +2,15 @@ package hospital.building;
 
 public class Equipment {
 
-    protected boolean InUse;
+    protected boolean inUse;
     protected String name;
 
     public boolean InUse() {
-        return InUse;
+        return inUse;
     }
 
     public void setInUse(boolean inUse) {
-        InUse = inUse;
+        this.inUse = inUse;
     }
 
     public String getName() {

@@ -3,7 +3,7 @@ package hospital.drug;
 public class Drug {
     protected String name;
     //default state ALWAYS not aprroved by medics unitll proven otherwise
-    protected boolean Aprroved = false;
+    private boolean aprroved = false;
 
     public Drug(String name) {
         this.name = name;
@@ -18,18 +18,18 @@ public class Drug {
     }
 
     public boolean isAprroved() {
-        return Aprroved;
+        return aprroved;
     }
 
     public void setAprroved(boolean aprroved) {
-        Aprroved = aprroved;
+        aprroved = aprroved;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("drug name:").append(name)
-                .append("\nis approved:").append(Aprroved);
+                .append("\nis approved:").append(aprroved);
         return sb.toString();
     }
 

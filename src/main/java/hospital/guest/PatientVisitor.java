@@ -7,15 +7,15 @@ public class PatientVisitor extends Guest {
     private Patient patientToVisit;
 
     public PatientVisitor(Patient patientToVisit, String guestId,
-                          String name, boolean isAllowed) {
+                          String name, boolean allowed) {
 
-        super(guestId, name, isAllowed);
+        super(guestId, name, allowed);
         this.patientToVisit = patientToVisit;
     }
 
     @Override
     protected void checkIsAllowed() {
-        if (Allowed) {
+        if (allowed) {
             System.out.println("Hello, " + name + "welcome!");
         } else {
             System.out.println("Sorry, " + name + "you've been denied visit to the patient(");
@@ -35,7 +35,7 @@ public class PatientVisitor extends Guest {
         StringBuilder sb = new StringBuilder();
         sb.append("guest name:" + name)
                 .append("\nguest id:" + guestId)
-                .append("\nis guest allowed:" + Allowed)
+                .append("\nis guest allowed:" + allowed)
                 .append("\nguest vissiting:" + patientToVisit);
 
         return sb.toString();

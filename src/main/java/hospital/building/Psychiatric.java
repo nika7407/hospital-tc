@@ -7,7 +7,7 @@ import hospital.worker.Patient;
 public class Psychiatric extends Department {
 
     private Patient[] committedPatients;
-    private boolean Aggressive;
+    private boolean aggressive;
 
     public Psychiatric(Doctor[] doctors,
                        Patient[] patients,
@@ -20,7 +20,7 @@ public class Psychiatric extends Department {
 
         super(doctors, patients, nurses, apparatuses, name, capacity);
         this.committedPatients = committefPatients;
-        this.Aggressive = Aggressive;
+        this.aggressive = Aggressive;
     }
 
     public Patient[] getCommittedPatients() {
@@ -32,10 +32,10 @@ public class Psychiatric extends Department {
     }
 
     public boolean isAggressive() {
-        return Aggressive;
+        return aggressive;
     }
 
     public void setAggressive(boolean aggressive) {
-        Aggressive = aggressive;
+        this.aggressive = aggressive;
     }
 }

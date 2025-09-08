@@ -4,13 +4,15 @@ public abstract class Guest {
 
     protected String guestId;
     protected String name;
-    protected boolean Allowed;
+    protected boolean allowed;
 
     public Guest(String guestId, String name, boolean isAllowed) {
         this.guestId = guestId;
         this.name = name;
-        this.Allowed = isAllowed;
+        this.allowed = isAllowed;
     }
+
+    protected abstract void checkIsAllowed();
 
     public String getGuestId() {
         return guestId;
@@ -29,13 +31,10 @@ public abstract class Guest {
     }
 
     public boolean isAllowed() {
-        return Allowed;
+        return allowed;
     }
 
     public void setAllowed(boolean allowed) {
-        Allowed = allowed;
+        allowed = allowed;
     }
-
-    protected abstract void checkIsAllowed();
-
 }
