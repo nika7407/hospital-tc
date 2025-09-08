@@ -8,14 +8,12 @@ public class Hospital {
     private String name;
     private Department[] departments;
     private Appointment[] appointments;
-    private Catalogue catalogue;
     private Guest[] guests;
 
     public Hospital(String name, Department[] departments, Appointment[] appointments) {
         this.name = name;
         this.departments = departments;
         this.appointments = appointments;
-        this.catalogue = new Catalogue(departments, appointments);
     }
 
     public String getName() {
@@ -40,14 +38,6 @@ public class Hospital {
 
     public void setAppointments(Appointment[] appointments) {
         this.appointments = appointments;
-    }
-
-    public Catalogue getHospitalCatalogue() {
-        return catalogue;
-    }
-
-    public void setHospitalCatalogue(Catalogue catalogue) {
-        this.catalogue = catalogue;
     }
 
     public Guest[] getGuests() {

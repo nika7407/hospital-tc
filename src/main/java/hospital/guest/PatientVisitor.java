@@ -15,7 +15,7 @@ public class PatientVisitor extends Guest {
 
     @Override
     protected void checkIsAllowed() {
-        if (isAllowed) {
+        if (Allowed) {
             System.out.println("Hello, " + name + "welcome!");
         } else {
             System.out.println("Sorry, " + name + "you've been denied visit to the patient(");
@@ -35,7 +35,7 @@ public class PatientVisitor extends Guest {
         StringBuilder sb = new StringBuilder();
         sb.append("guest name:" + name)
                 .append("\nguest id:" + guestId)
-                .append("\nis guest allowed:" + isAllowed)
+                .append("\nis guest allowed:" + Allowed)
                 .append("\nguest vissiting:" + patientToVisit);
 
         return sb.toString();
