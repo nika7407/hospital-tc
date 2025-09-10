@@ -1,6 +1,7 @@
 package hospital.worker;
 
 import hospital.drug.Drug;
+import hospital.drug.Vaccine;
 
 import java.time.LocalDateTime;
 
@@ -11,6 +12,7 @@ public class Patient extends Human {
     private int difficultyScale;
     private boolean dnr;
     private Drug[] assignedDrugs = new Drug[0];
+    private Vaccine[] vaccines = new Vaccine[0];
 
     public Patient(String firstName,
                    String lastName,
@@ -69,4 +71,11 @@ public class Patient extends Human {
         this.assignedDrugs = assignedDrugs;
     }
 
+    public Vaccine[] getVaccines() {
+        return vaccines;
+    }
+
+    public void setVaccines(Vaccine[] vaccines) {
+        this.vaccines = vaccines;
+    }
 }

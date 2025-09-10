@@ -1,11 +1,10 @@
 package hospital.worker;
 
-import hospital.building.Department;
-
 public class Doctor extends Human {
 
     private int expirienceYears;
-    private String spetialization;
+    private String field;
+    private Spetialization spetialization;
 
     public Doctor(String firstName,
                   String lastName,
@@ -14,7 +13,7 @@ public class Doctor extends Human {
                   String spetialization, int expirienceYears) {
 
         super(firstName, lastName, age, email);
-        this.spetialization = spetialization;
+        this.field = spetialization;
         this.expirienceYears = expirienceYears;
     }
 
@@ -26,12 +25,19 @@ public class Doctor extends Human {
         this.expirienceYears = expirienceYears;
     }
 
-    public String getSpetialization() {
+    public String getField() {
+        return field;
+    }
+
+    public void setField(String field) {
+        this.field = field;
+    }
+
+    public Spetialization getSpetialization() {
         return spetialization;
     }
 
-    public void setSpetialization(String spetialization) {
+    public void setSpetialization(Spetialization spetialization) {
         this.spetialization = spetialization;
     }
-
 }

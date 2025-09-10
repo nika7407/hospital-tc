@@ -1,11 +1,15 @@
 package hospital.worker;
 
 import hospital.building.Department;
+import hospital.sertification.Sertificate;
+
+import java.security.cert.Certificate;
 
 public class Nurse extends Human {
 
     private int expirienceYears;
     private boolean practise;
+    private Sertificate sertificate;
 
     public Nurse(String firstName,
                  String lastName,
@@ -30,5 +34,13 @@ public class Nurse extends Human {
 
     public void setPractise(boolean practise) {
         this.practise = practise;
+    }
+
+    public Sertificate getSertificate() {
+        return sertificate;
+    }
+
+    public void setSertificate(Sertificate sertificate) {
+        this.sertificate = sertificate;
     }
 }

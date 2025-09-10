@@ -2,7 +2,7 @@ package hospital.drug;
 
 import hospital.worker.Patient;
 
-public class DrugAssignmentService {
+public class DrugAssignmentService  {
 
     public static void assignDrug(Drug drug, Patient patient) {
         // unapproved drugs won't be assigned

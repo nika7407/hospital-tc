@@ -2,7 +2,7 @@ package hospital.guest;
 
 import hospital.worker.Patient;
 
-public class PatientVisitor extends Guest {
+public class PatientVisitor extends HospitalGuest {
 
     private Patient patientToVisit;
 
@@ -20,6 +20,11 @@ public class PatientVisitor extends Guest {
         } else {
             System.out.println("Sorry, " + name + "you've been denied visit to the patient(");
         }
+    }
+
+
+    public void guestVisiting() {
+        System.out.println("Hello, my name is " + name + " i'm visiting " + patientToVisit.getLastName());
     }
 
     public Patient getPatientToVisit() {
@@ -58,4 +63,5 @@ public class PatientVisitor extends Guest {
     public int hashCode() {
         return java.util.Objects.hash(this.guestId, this.getName());
     }
+
 }

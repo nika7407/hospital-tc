@@ -6,13 +6,21 @@ import hospital.administration.Hospital;
 import hospital.building.Apparatus;
 import hospital.building.Department;
 import hospital.drug.DrugAssignmentService;
+import hospital.drug.FluVaccine;
+import hospital.drug.MeaslesVaccine;
 import hospital.drug.Painkiller;
 import hospital.drug.TestDrug;
+import hospital.drug.Vaccine;
 import hospital.guest.Guest;
+import hospital.guest.HospitalGuest;
 import hospital.guest.PatientVisitor;
+import hospital.sertification.FirstHelpSertification;
+import hospital.sertification.Sertificate;
+import hospital.worker.CardiologySpetialazation;
 import hospital.worker.Doctor;
 import hospital.worker.Nurse;
 import hospital.worker.Patient;
+import hospital.worker.Spetialization;
 
 import java.time.LocalDateTime;
 
@@ -58,6 +66,19 @@ public class Main {
                 35, "shatirishvili@kideRaMovifiqro.ge",
                 8, false);
 
+
+        // polymorphism, and assigning vaccine set
+        Vaccine fluVaccine = new FluVaccine();
+        Vaccine measlesVaccine = new MeaslesVaccine();
+        Vaccine[] vaccineSet = new Vaccine[]{fluVaccine, measlesVaccine};
+        patient1.setVaccines(vaccineSet);
+
+        Spetialization cardiologySpetialazation = new CardiologySpetialazation();
+        doctor3.setSpetialization(cardiologySpetialazation);
+
+        Sertificate firstHelpCert = new FirstHelpSertification(LocalDateTime.now().plusDays(30));
+        nurse2.setSertificate(firstHelpCert);
+
         PatientVisitor patientVisitor = new PatientVisitor(patient1,"someGuestId","kaxa",true);
 
         Painkiller painkiller = new Painkiller("noshpa",3);
@@ -102,7 +123,7 @@ public class Main {
         );
 
         //adding guests
-        hospital.setGuests(new Guest[]{patientVisitor});
+        hospital.setGuests(new HospitalGuest[]{patientVisitor});
         System.out.println("\nHospital Class initiated!");
     }
 

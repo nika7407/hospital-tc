@@ -2,13 +2,14 @@ package hospital.administration;
 
 import hospital.building.Department;
 import hospital.guest.Guest;
+import hospital.guest.HospitalGuest;
 
 public class Hospital {
 
     private String name;
     private Department[] departments;
     private Appointment[] appointments;
-    private Guest[] guests;
+    private HospitalGuest[] guests;
 
     public Hospital(String name, Department[] departments, Appointment[] appointments) {
         this.name = name;
@@ -40,11 +41,11 @@ public class Hospital {
         this.appointments = appointments;
     }
 
-    public Guest[] getGuests() {
+    public HospitalGuest[] getGuests() {
         return guests;
     }
 
-    public void setGuests(Guest[] guests) {
+    public void setGuests(HospitalGuest[] guests) {
         this.guests = guests;
     }
 }
