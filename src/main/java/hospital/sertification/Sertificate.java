@@ -5,4 +5,5 @@ public interface Sertificate {
     void sertification();
 
     boolean isSertificateExpired();
+
 }

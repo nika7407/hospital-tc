@@ -11,7 +11,7 @@ public final class MeaslesVaccine implements Vaccine {
 
     @Override
     public void printMinimalAge() {
-        System.out.println("\nminimal age is " + vaccinnationMinimalAge);
+        System.out.println("\nminimal age is " + VACCINATION_MINIMAL_AGE);
     }
 
     public static void isVaccineHarmful(){
