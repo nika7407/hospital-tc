@@ -1,6 +1,6 @@
 package hospital.drug;
 
-public class Drug  {
+public class Drug {
     protected String name;
     //default state ALWAYS not aprroved by medics unitll proven otherwise
     private boolean aprroved = false;

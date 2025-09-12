@@ -1,7 +1,6 @@
 package hospital.administration;
 
 import hospital.building.Department;
-import hospital.guest.Guest;
 import hospital.guest.HospitalGuest;
 
 public class Hospital {

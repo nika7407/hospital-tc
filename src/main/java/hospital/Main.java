@@ -3,6 +3,8 @@ package hospital;
 import hospital.administration.Appointment;
 import hospital.administration.AppointmentService;
 import hospital.administration.Hospital;
+import hospital.administration.PatientCheckup;
+import hospital.administration.VaccinationBooth;
 import hospital.building.Apparatus;
 import hospital.building.Department;
 import hospital.drug.DrugAssignmentService;
@@ -11,7 +13,6 @@ import hospital.drug.MeaslesVaccine;
 import hospital.drug.Painkiller;
 import hospital.drug.TestDrug;
 import hospital.drug.Vaccine;
-import hospital.guest.Guest;
 import hospital.guest.HospitalGuest;
 import hospital.guest.PatientVisitor;
 import hospital.sertification.FirstHelpSertification;
@@ -67,11 +68,12 @@ public class Main {
                 8, false);
 
 
-        // polymorphism, and assigning vaccine set
+        // polymorphism, and assigning vaccine sets
         Vaccine fluVaccine = new FluVaccine();
         Vaccine measlesVaccine = new MeaslesVaccine();
-        Vaccine[] vaccineSet = new Vaccine[]{fluVaccine, measlesVaccine};
-        patient1.setVaccines(vaccineSet);
+
+        VaccinationBooth.checkForTheVacination(fluVaccine, patient1);
+        VaccinationBooth.checkForTheVacination(measlesVaccine, patient1);
 
         Spetialization cardiologySpetialazation = new CardiologySpetialazation();
         doctor3.setSpetialization(cardiologySpetialazation);
@@ -79,14 +81,17 @@ public class Main {
         Sertificate firstHelpCert = new FirstHelpSertification(LocalDateTime.now().plusDays(30));
         nurse2.setSertificate(firstHelpCert);
 
-        PatientVisitor patientVisitor = new PatientVisitor(patient1,"someGuestId","kaxa",true);
+        PatientCheckup patientCheckup = new PatientCheckup();
+        patientCheckup.checkup(patient1);
 
-        Painkiller painkiller = new Painkiller("noshpa",3);
-        TestDrug testDrug = new TestDrug("experimentDrug","Do not use on blind children or deaf elders");
+        PatientVisitor patientVisitor = new PatientVisitor(patient1, "someGuestId", "kaxa", true);
+
+        Painkiller painkiller = new Painkiller("noshpa", 3);
+        TestDrug testDrug = new TestDrug("experimentDrug", "Do not use on blind children or deaf elders");
 
         //assigning drugs,
-        DrugAssignmentService.assignDrug(painkiller,patient1);
-        DrugAssignmentService.assignDrug(testDrug,patient2);
+        DrugAssignmentService.assignDrug(painkiller, patient1);
+        DrugAssignmentService.assignDrug(testDrug, patient2);
 
         Apparatus apparatus1 = new Apparatus("ekg", "heart scanner", false, cardiology);
         Apparatus apparatus2 = new Apparatus("mri", "mri scanner", true, surgery);

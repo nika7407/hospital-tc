@@ -2,7 +2,7 @@ package hospital.sertification;
 
 public interface Sertificate {
 
-    void sertification();
+    void showSertification();
 
     boolean isSertificateExpired();
 

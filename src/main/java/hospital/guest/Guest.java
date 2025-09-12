@@ -2,6 +2,6 @@ package hospital.guest;
 
 public interface Guest {
 
-    void guestVisiting();
+    void visit();
 
 }

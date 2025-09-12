@@ -1,9 +1,6 @@
 package hospital.worker;
 
-import hospital.building.Department;
 import hospital.sertification.Sertificate;
-
-import java.security.cert.Certificate;
 
 public class Nurse extends Human {
 

@@ -7,7 +7,7 @@ public final class PatientCheckup implements Checkup<Patient> {
     public void checkup(Patient patientToCheck) {
 
         if (patientToCheck == null) {
-            System.out.println("Patient is missing(");
+            System.out.println("\nPatient is missing(");
         }
 
         int amountOfAssignedDrugs = patientToCheck.getAssignedDrugs().length;

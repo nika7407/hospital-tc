@@ -21,7 +21,7 @@ public final class FirstHelpSertification implements Sertificate {
     }
 
     @Override
-    public void sertification() {
+    public void showSertification() {
         System.out.println("this user is certified to do first help!");
     }
 

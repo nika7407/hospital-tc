@@ -8,8 +8,8 @@ public class FluVaccine implements Vaccine {
     }
 
     @Override
-    public void printMinimalAge() {
-        System.out.println("minimal age" + VACCINATION_MINIMAL_AGE);
+    public int getVaccinationMinimalAge() {
+        return VACCINATION_MINIMAL_AGE;
     }
 }
 
