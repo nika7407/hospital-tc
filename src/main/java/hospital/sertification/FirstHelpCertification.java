@@ -4,11 +4,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
 
-public final class FirstHelpSertification implements Sertificate {
+public final class FirstHelpCertification implements Certificate {
 
     private LocalDateTime expiresAt;
 
-    public FirstHelpSertification(LocalDateTime expiresAt) {
+    public FirstHelpCertification(LocalDateTime expiresAt) {
         this.expiresAt = expiresAt;
     }
 
@@ -21,12 +21,12 @@ public final class FirstHelpSertification implements Sertificate {
     }
 
     @Override
-    public void showSertification() {
+    public void showCertification() {
         System.out.println("this user is certified to do first help!");
     }
 
     @Override
-    public boolean isSertificateExpired() {
+    public boolean isCertificateExpired() {
 
         return java.time.LocalDate.now().isBefore(ChronoLocalDate.from(expiresAt));
     }

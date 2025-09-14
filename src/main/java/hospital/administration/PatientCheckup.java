@@ -1,13 +1,15 @@
 package hospital.administration;
 
+import hospital.exception.CheckupException;
+import hospital.exception.MissingPatientRuntimeException;
 import hospital.worker.Patient;
 
 public final class PatientCheckup implements Checkup<Patient> {
 
-    public void checkup(Patient patientToCheck) {
+    public void checkup(Patient patientToCheck) throws CheckupException {
 
         if (patientToCheck == null) {
-            System.out.println("\nPatient is missing(");
+            throw new MissingPatientRuntimeException("Missing the patient!", new NullPointerException());
         }
 
         int amountOfAssignedDrugs = patientToCheck.getAssignedDrugs().length;
@@ -19,6 +21,8 @@ public final class PatientCheckup implements Checkup<Patient> {
 
         if (amountOfAssignedDrugs > 3) {
             checkup.append("\nrecommendation: lower dosage");
+        } else if (amountOfAssignedDrugs == 0) {
+            throw new CheckupException("patient doest takes drugs!");
         } else {
             checkup.append("\nrecommendation: keep dosage");
         }

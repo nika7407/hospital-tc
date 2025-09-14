@@ -2,6 +2,7 @@ package hospital;
 
 import hospital.administration.Appointment;
 import hospital.administration.AppointmentService;
+import hospital.administration.EmailRegistration;
 import hospital.administration.Hospital;
 import hospital.administration.PatientCheckup;
 import hospital.administration.VaccinationBooth;
@@ -13,10 +14,12 @@ import hospital.drug.MeaslesVaccine;
 import hospital.drug.Painkiller;
 import hospital.drug.TestDrug;
 import hospital.drug.Vaccine;
+import hospital.exception.CheckupException;
+import hospital.exception.WrongEmailException;
 import hospital.guest.HospitalGuest;
 import hospital.guest.PatientVisitor;
-import hospital.sertification.FirstHelpSertification;
-import hospital.sertification.Sertificate;
+import hospital.sertification.Certificate;
+import hospital.sertification.FirstHelpCertification;
 import hospital.worker.CardiologySpetialazation;
 import hospital.worker.Doctor;
 import hospital.worker.Nurse;
@@ -68,21 +71,36 @@ public class Main {
                 8, false);
 
 
+        try (EmailRegistration emailRegistration = new EmailRegistration(patient1)) {
+            emailRegistration.RegisterEmail();
+        } catch (WrongEmailException e) {
+            System.out.println("incorrect email!");
+        } catch (Exception e) {
+            System.out.println("Unknown Problem!");
+        }
+
         // polymorphism, and assigning vaccine sets
         Vaccine fluVaccine = new FluVaccine();
         Vaccine measlesVaccine = new MeaslesVaccine();
 
-        VaccinationBooth.checkForTheVacination(fluVaccine, patient1);
-        VaccinationBooth.checkForTheVacination(measlesVaccine, patient1);
+        VaccinationBooth.checkForTheVaccination(fluVaccine, patient1);
+        VaccinationBooth.checkForTheVaccination(measlesVaccine, patient1);
 
         Spetialization cardiologySpetialazation = new CardiologySpetialazation();
         doctor3.setSpetialization(cardiologySpetialazation);
 
-        Sertificate firstHelpCert = new FirstHelpSertification(LocalDateTime.now().plusDays(30));
+        Certificate firstHelpCert = new FirstHelpCertification(LocalDateTime.now().plusDays(30));
         nurse2.setSertificate(firstHelpCert);
 
         PatientCheckup patientCheckup = new PatientCheckup();
-        patientCheckup.checkup(patient1);
+        try {
+            patientCheckup.checkup(patient1);
+        } catch (CheckupException e) {
+            System.out.println("\n" + e.getMessage());
+        } finally {
+            System.out.println("Try again!");
+        }
+
 
         PatientVisitor patientVisitor = new PatientVisitor(patient1, "someGuestId", "kaxa", true);
 
@@ -119,6 +137,7 @@ public class Main {
 
         AppointmentService.completeAppointment(appointment1);
         AppointmentService.completeAppointment(appointment3);
+
 
         // Main hospital class
         Hospital hospital = new Hospital(

@@ -1,14 +1,17 @@
 package hospital.administration;
 
 import hospital.drug.Vaccine;
+import hospital.exception.WrongAgeRuntimeException;
 import hospital.worker.Patient;
 
 public class VaccinationBooth {
 
-    public static void checkForTheVacination(Vaccine vaccine,
-                                             Patient patient) {
-        if (vaccine.getVaccinationMinimalAge() > patient.getAge()) {
-            System.out.println("\nSorry your age is not enough to vaccinate!");
+    public static void checkForTheVaccination(Vaccine vaccine, Patient patient) {
+
+        int age = patient.getAge();
+
+        if (vaccine.getVaccinationMinimalAge() > age) {
+            throw new WrongAgeRuntimeException(age, "Vaccination");
         }
 
         Vaccine[] oldVaccines = patient.getVaccines();
@@ -21,5 +24,4 @@ public class VaccinationBooth {
         System.out.println("\n" + patient.getFirstName() + " you have been vaccinated!\n"
                 + "amount of vaccines = " + newVaccines.length);
     }
-
 }
