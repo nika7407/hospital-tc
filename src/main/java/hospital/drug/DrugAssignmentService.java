@@ -7,7 +7,7 @@ public class DrugAssignmentService {
     public static void assignDrug(Drug drug, Patient patient) {
         // unapproved drugs won't be assigned
         if (!drug.isAprroved()) {
-            System.out.println("Soory," + patient.getFirstName() + " Drug is not aprroved for Use\nTalk with your Doctor");
+            System.out.println("Sorry," + patient.getFirstName() + " Drug is not approved for Use\nTalk with your Doctor");
             return;
         }
 

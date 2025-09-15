@@ -7,6 +7,6 @@ public class MissingDoctorRuntimeException extends RuntimeException {
     }
 
     public MissingDoctorRuntimeException(String message, Throwable cause) {
-        super(message);
+        super(message, cause);
     }
 }

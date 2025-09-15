@@ -29,6 +29,7 @@ import hospital.worker.Spetialization;
 import java.time.LocalDateTime;
 
 public class Main {
+
     public static void main(String[] args) {
 
         //initing departments
@@ -72,7 +73,7 @@ public class Main {
 
 
         try (EmailRegistration emailRegistration = new EmailRegistration(patient1)) {
-            emailRegistration.RegisterEmail();
+            emailRegistration.registerEmail();
         } catch (WrongEmailException e) {
             System.out.println("incorrect email!");
         } catch (Exception e) {

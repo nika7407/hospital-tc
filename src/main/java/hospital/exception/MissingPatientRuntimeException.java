@@ -7,6 +7,6 @@ public class MissingPatientRuntimeException extends RuntimeException {
     }
 
     public MissingPatientRuntimeException(String message, Throwable cause) {
-        super(message);
+        super(message, cause);
     }
 }

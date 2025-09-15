@@ -9,7 +9,7 @@ public final class PatientCheckup implements Checkup<Patient> {
     public void checkup(Patient patientToCheck) throws CheckupException {
 
         if (patientToCheck == null) {
-            throw new MissingPatientRuntimeException("Missing the patient!", new NullPointerException());
+            throw new MissingPatientRuntimeException("Missing the patient!");
         }
 
         int amountOfAssignedDrugs = patientToCheck.getAssignedDrugs().length;

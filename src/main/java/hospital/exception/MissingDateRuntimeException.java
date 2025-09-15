@@ -7,6 +7,6 @@ public class MissingDateRuntimeException extends RuntimeException {
     }
 
     public MissingDateRuntimeException(String message, Throwable cause) {
-        super(message);
+        super(message, cause);
     }
 }

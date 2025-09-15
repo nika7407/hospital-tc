@@ -1,6 +1,7 @@
 package hospital.drug;
 
 public final class MeaslesVaccine implements Vaccine {
+
     private final static int daysOfNotDrinking = 3;
 
     @Override

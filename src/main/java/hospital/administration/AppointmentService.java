@@ -1,5 +1,6 @@
 package hospital.administration;
 
+import hospital.exception.MissingDateRuntimeException;
 import hospital.exception.MissingDoctorRuntimeException;
 import hospital.exception.MissingPatientRuntimeException;
 import hospital.worker.Doctor;
@@ -18,11 +19,11 @@ public class AppointmentService implements AutoCloseable {
     public static Appointment createAppointment(Patient patient, Doctor doctor, LocalDateTime date) {
 
         if (patient == null) {
-            throw new MissingPatientRuntimeException("missing patient!", new NullPointerException());
+            throw new MissingPatientRuntimeException("missing patient!");
         } else if (doctor == null) {
-            throw new MissingDoctorRuntimeException("missing doctor!", new NullPointerException());
+            throw new MissingDoctorRuntimeException("missing doctor!");
         } else if (date == null) {
-            throw new MissingDoctorRuntimeException("missing date!", new NullPointerException());
+            throw new MissingDateRuntimeException("missing date!");
         }
 
         Appointment appointment = new Appointment(patient, doctor, date, false);
