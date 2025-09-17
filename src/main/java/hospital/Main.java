@@ -9,6 +9,7 @@ import hospital.administration.VaccinationBooth;
 import hospital.building.Apparatus;
 import hospital.building.Department;
 import hospital.drug.DrugAssignmentService;
+import hospital.drug.DrugDelivery;
 import hospital.drug.FluVaccine;
 import hospital.drug.MeaslesVaccine;
 import hospital.drug.Painkiller;
@@ -16,6 +17,7 @@ import hospital.drug.TestDrug;
 import hospital.drug.Vaccine;
 import hospital.exception.CheckupException;
 import hospital.exception.WrongEmailException;
+import hospital.guest.ERTransport;
 import hospital.guest.HospitalGuest;
 import hospital.guest.PatientVisitor;
 import hospital.sertification.Certificate;
@@ -27,28 +29,39 @@ import hospital.worker.Patient;
 import hospital.worker.Spetialization;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class Main {
 
     public static void main(String[] args) {
 
         //initing departments
+        Map<Patient, String> cardiologyNotes = new HashMap<>();
+        Map<Patient, String> surgeryNotes = new HashMap<>();
         Department cardiology = new Department(
-                new Doctor[5],
-                new Patient[50],
-                new Nurse[15],
-                new Apparatus[5],
+                new ArrayList<>(),
+                new HashSet<>(),
+                new ArrayList<>(),
+                new ArrayList<>(),
                 "Cardiology",
-                30
+                30,
+                cardiologyNotes
         );
 
         Department surgery = new Department(
-                new Doctor[8],
-                new Patient[15],
-                new Nurse[10],
-                new Apparatus[3],
+                new ArrayList<>(),
+                new HashSet<>(),
+                new ArrayList<>(),
+                new ArrayList<>(),
                 "Surgery",
-                20
+                20,
+                surgeryNotes
         );
 
         Doctor doctor1 = new Doctor("luka", "tsintsadze",
@@ -70,7 +83,6 @@ public class Main {
         Nurse nurse2 = new Nurse("vakhtang", "shatirishvili",
                 35, "shatirishvili@kideRaMovifiqro.ge",
                 8, false);
-
 
         try (EmailRegistration emailRegistration = new EmailRegistration(patient1)) {
             emailRegistration.registerEmail();
@@ -102,7 +114,6 @@ public class Main {
             System.out.println("Try again!");
         }
 
-
         PatientVisitor patientVisitor = new PatientVisitor(patient1, "someGuestId", "kaxa", true);
 
         Painkiller painkiller = new Painkiller("noshpa", 3);
@@ -116,17 +127,20 @@ public class Main {
         Apparatus apparatus2 = new Apparatus("mri", "mri scanner", true, surgery);
 
         //filling departments with people and such things
-        cardiology.getDoctors()[0] = doctor1;
-        cardiology.getDoctors()[1] = doctor3;
-        cardiology.getPatients()[0] = patient1;
-        cardiology.getPatients()[1] = patient3;
-        cardiology.getNurses()[0] = nurse1;
-        cardiology.getApparatus()[0] = apparatus1;
+        cardiology.getDoctors().add(doctor1);
+        cardiology.getDoctors().add(doctor3);
+        cardiology.getPatients().add(patient1);
+        cardiology.getPatients().add(patient3);
+        cardiology.getNurses().add(nurse1);
+        cardiology.getApparatus().add(new Apparatus("ekg", "heart scanner", false, cardiology));
+        cardiology.getPatientNotes().put(patient1, "Needs regular EKG");
+        cardiology.getPatientNotes().put(patient3, "Monitor blood pressure");
 
-        surgery.getDoctors()[0] = doctor2;
-        surgery.getPatients()[0] = patient2;
-        surgery.getNurses()[0] = nurse2;
-        surgery.getApparatus()[0] = apparatus2;
+        surgery.getDoctors().add(doctor2);
+        surgery.getPatients().add(patient2);
+        surgery.getNurses().add(nurse2);
+        surgery.getApparatus().add(new Apparatus("mri", "mri scanner", true, surgery));
+        surgery.getPatientNotes().put(patient2, "Post-op observation");
 
         //static method to create appointments
         Appointment appointment1 = AppointmentService.createAppointment(
@@ -139,17 +153,74 @@ public class Main {
         AppointmentService.completeAppointment(appointment1);
         AppointmentService.completeAppointment(appointment3);
 
-
         // Main hospital class
+        Map<String, Department> departmentMap = new HashMap<>();
+        departmentMap.put(cardiology.getName(), cardiology);
+        departmentMap.put(surgery.getName(), surgery);
+        List<Appointment> appointmentList = Arrays.asList(appointment1, appointment2, appointment3);
         Hospital hospital = new Hospital(
                 "republic hospital",
-                new Department[]{cardiology, surgery},
-                new Appointment[]{appointment1, appointment2, appointment3}
+                departmentMap,
+                appointmentList
         );
 
         //adding guests
-        hospital.setGuests(new HospitalGuest[]{patientVisitor});
+        Set<HospitalGuest> guests = new HashSet<>();
+        PatientVisitor patientVisitor3 = new PatientVisitor(patient1, "someGuestId", "kaxa", true);
+        guests.add(patientVisitor);
+        hospital.setGuests(guests);
         System.out.println("\nHospital Class initiated!");
-    }
 
+        //emergency responce transport
+        ERTransport<Patient> erCar = new ERTransport<>(doctor1, patient2, "car42");
+        erCar.arrivedAtHospital();
+
+        DrugDelivery<Painkiller> drugDelivery = new DrugDelivery<>("DrugOnTime");
+        drugDelivery.setDrugToDeliver(painkiller);
+        drugDelivery.deliverDrug();
+
+        // list
+        System.out.println("\ndoctors:");
+        List<Doctor> docList = cardiology.getDoctors();
+        System.out.println("senior doctor: " + docList.getFirst().getLastName());
+        for (Doctor doctor : docList) {
+
+            if (doctor.getExpirienceYears() < 1) {
+                docList.remove(doctor);
+            }
+            System.out.println(doctor.getFirstName() + " " + doctor.getLastName());
+
+        }
+
+        System.out.println("total " + cardiology.getDoctors().size());
+
+        // set
+        System.out.println("\npatients in cardiology");
+        Set<Patient> patientSet = cardiology.getPatients();
+
+        Patient firstPatient = patientSet.iterator().next();
+        System.out.println("first patient: " + firstPatient.getFirstName() + " " + firstPatient.getLastName());
+
+        for (Patient p : cardiology.getPatients()) {
+            System.out.println(p.getFirstName() + " " + p.getLastName());
+        }
+        System.out.println("total " + cardiology.getPatients().size());
+
+        if (cardiology.getPatients().isEmpty()) {
+            System.out.println("cardiology is empty!");
+        }
+
+        // map demo
+        System.out.println("\npatient notes");
+        Map<Patient, String> notesMap = cardiology.getPatientNotes();
+        if (!notesMap.isEmpty()) {
+            Map.Entry<Patient, String> firstEntry = notesMap.entrySet().iterator().next();
+            System.out.println("first note: " + firstEntry.getKey().getFirstName() + " - " + firstEntry.getValue());
+        }
+        for (Map.Entry<Patient, String> entry : notesMap.entrySet()) {
+            System.out.println(entry.getKey().getFirstName() + " " + entry.getValue());
+
+        }
+
+    }
 }

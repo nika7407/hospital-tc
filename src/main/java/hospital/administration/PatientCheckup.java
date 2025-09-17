@@ -12,7 +12,7 @@ public final class PatientCheckup implements Checkup<Patient> {
             throw new MissingPatientRuntimeException("Missing the patient!");
         }
 
-        int amountOfAssignedDrugs = patientToCheck.getAssignedDrugs().length;
+        int amountOfAssignedDrugs = patientToCheck.getAssignedDrugs().size();
 
         StringBuilder checkup = new StringBuilder();
         checkup.append("\npatient: ")

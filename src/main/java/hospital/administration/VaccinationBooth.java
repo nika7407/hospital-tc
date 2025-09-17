@@ -14,14 +14,13 @@ public class VaccinationBooth {
             throw new WrongAgeRuntimeException(age, "Vaccination");
         }
 
-        Vaccine[] oldVaccines = patient.getVaccines();
-        int amountOfVaccines = oldVaccines.length;
-        Vaccine[] newVaccines = new Vaccine[amountOfVaccines + 1];
-
-        System.arraycopy(oldVaccines, 0, newVaccines, 0, amountOfVaccines);
-        newVaccines[amountOfVaccines] = vaccine;
-        patient.setVaccines(newVaccines);
-        System.out.println("\n" + patient.getFirstName() + " you have been vaccinated!\n"
-                + "amount of vaccines = " + newVaccines.length);
+        boolean added = patient.getVaccines().add(vaccine);
+        if (added) {
+            System.out.println("\n" + patient.getFirstName() + "you have been vaccinated!"
+                    + "\namount of vaccines = " + patient.getVaccines().size());
+        } else {
+            System.out.println("\n" + patient.getFirstName() + " already has this vaccine!"
+                    + "\namount of vaccines = " + patient.getVaccines().size());
+        }
     }
 }

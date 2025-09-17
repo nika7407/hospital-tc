@@ -3,14 +3,18 @@ package hospital.administration;
 import hospital.building.Department;
 import hospital.guest.HospitalGuest;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public class Hospital {
 
     private String name;
-    private Department[] departments;
-    private Appointment[] appointments;
-    private HospitalGuest[] guests;
+    private Map<String, Department> departments;
+    private List<Appointment> appointments;
+    private Set<HospitalGuest> guests;
 
-    public Hospital(String name, Department[] departments, Appointment[] appointments) {
+    public Hospital(String name, Map<String, Department> departments, List<Appointment> appointments) {
         this.name = name;
         this.departments = departments;
         this.appointments = appointments;
@@ -24,27 +28,27 @@ public class Hospital {
         this.name = name;
     }
 
-    public Department[] getDepartments() {
+    public Map<String, Department> getDepartments() {
         return departments;
     }
 
-    public void setDepartments(Department[] departments) {
+    public void setDepartments(Map<String, Department> departments) {
         this.departments = departments;
     }
 
-    public Appointment[] getAppointments() {
+    public List<Appointment> getAppointments() {
         return appointments;
     }
 
-    public void setAppointments(Appointment[] appointments) {
+    public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
     }
 
-    public HospitalGuest[] getGuests() {
+    public Set<HospitalGuest> getGuests() {
         return guests;
     }
 
-    public void setGuests(HospitalGuest[] guests) {
+    public void setGuests(Set<HospitalGuest> guests) {
         this.guests = guests;
     }
 }

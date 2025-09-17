@@ -2,6 +2,8 @@ package hospital.drug;
 
 import hospital.worker.Patient;
 
+import java.util.List;
+
 public class DrugAssignmentService {
 
     public static void assignDrug(Drug drug, Patient patient) {
@@ -11,17 +13,10 @@ public class DrugAssignmentService {
             return;
         }
 
-        Drug[] assignedDrugs = patient.getAssignedDrugs();
-        int amountOfAssignedDrugs = assignedDrugs.length;
-
-        Drug[] newAssignedDrugs = new Drug[amountOfAssignedDrugs + 1];
-
-        System.arraycopy(assignedDrugs, 0, newAssignedDrugs, 0, amountOfAssignedDrugs);
-        newAssignedDrugs[amountOfAssignedDrugs] = drug;
-
-        patient.setAssignedDrugs(newAssignedDrugs);
+        List<Drug> assignedDrugs = patient.getAssignedDrugs();
+        assignedDrugs.add(drug);
+        patient.setAssignedDrugs(assignedDrugs);
         System.out.println("Drug assigned for " + patient.getFirstName());
     }
 
 }
-

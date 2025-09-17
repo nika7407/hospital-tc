@@ -4,30 +4,33 @@ import hospital.worker.Doctor;
 import hospital.worker.Nurse;
 import hospital.worker.Patient;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
+
 public class Psychiatric extends Department {
 
-    private Patient[] committedPatients;
+    private Set<Patient> committedPatients;
     private boolean aggressive;
 
-    public Psychiatric(Doctor[] doctors,
-                       Patient[] patients,
-                       Nurse[] nurses,
-                       Apparatus[] apparatuses,
+    public Psychiatric(List<Doctor> doctors,
+                       Set<Patient> patients,
+                       List<Nurse> nurses,
+                       List<Apparatus> apparatuses,
                        String name,
                        int capacity,
-                       Patient[] committefPatients,
-                       boolean Aggressive) {
-
-        super(doctors, patients, nurses, apparatuses, name, capacity);
-        this.committedPatients = committefPatients;
-        this.aggressive = Aggressive;
+                       Set<Patient> committedPatients,
+                       boolean aggressive) {
+        super(doctors, patients, nurses, apparatuses, name, capacity, new HashMap<>());
+        this.committedPatients = committedPatients;
+        this.aggressive = aggressive;
     }
 
-    public Patient[] getCommittedPatients() {
+    public Set<Patient> getCommittedPatients() {
         return committedPatients;
     }
 
-    public void setCommittedPatients(Patient[] committedPatients) {
+    public void setCommittedPatients(Set<Patient> committedPatients) {
         this.committedPatients = committedPatients;
     }
 
