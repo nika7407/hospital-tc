@@ -179,7 +179,6 @@ public class Main {
         drugDelivery.setDrugToDeliver(painkiller);
         drugDelivery.deliverDrug();
 
-
         // list
         System.out.println("\ndoctors:");
         List<Doctor> docList = cardiology.getDoctors();
