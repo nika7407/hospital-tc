@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public class Patient extends Human {
@@ -82,4 +83,18 @@ public class Patient extends Human {
     public void setVaccines(Set<Vaccine> vaccines) {
         this.vaccines = vaccines;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Patient patient = (Patient) o;
+        return medicalId != null && medicalId.equals(patient.medicalId);
+    }
+
+    @Override
+    public int hashCode() {
+        return medicalId != null ? medicalId.hashCode() : 0;
+    }
+
 }

@@ -1,8 +1,11 @@
 package hospital.drug;
 
+import java.util.Objects;
+
 public final class MeaslesVaccine implements Vaccine {
 
     private final static int daysOfNotDrinking = 3;
+    private String name;
 
     @Override
     public void vaccinate() {
@@ -17,5 +20,18 @@ public final class MeaslesVaccine implements Vaccine {
 
     public static void isVaccineHarmful() {
         System.out.println("\nno the vaccine is not harmful!");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MeaslesVaccine that = (MeaslesVaccine) o;
+        return Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return name != null ? name.hashCode() : 0;
     }
 }
