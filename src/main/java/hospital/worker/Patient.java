@@ -2,12 +2,13 @@ package hospital.worker;
 
 import hospital.drug.Drug;
 import hospital.drug.Vaccine;
+import hospital.status.PatientIllness;
+import hospital.status.PatientStatus;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 public class Patient extends Human {
@@ -18,6 +19,9 @@ public class Patient extends Human {
     private boolean dnr;
     private List<Drug> assignedDrugs = new ArrayList<>();
     private Set<Vaccine> vaccines = new HashSet<>();
+    private PatientStatus patientStatus;
+    private PatientIllness patientIllness;
+
 
     public Patient(String firstName,
                    String lastName,
@@ -82,6 +86,22 @@ public class Patient extends Human {
 
     public void setVaccines(Set<Vaccine> vaccines) {
         this.vaccines = vaccines;
+    }
+
+    public PatientStatus getPatientStatus() {
+        return patientStatus;
+    }
+
+    public void setPatientStatus(PatientStatus patientStatus) {
+        this.patientStatus = patientStatus;
+    }
+
+    public PatientIllness getPatientIllness() {
+        return patientIllness;
+    }
+
+    public void setPatientIllness(PatientIllness patientIllness) {
+        this.patientIllness = patientIllness;
     }
 
     @Override

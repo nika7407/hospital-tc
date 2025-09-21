@@ -1,5 +1,6 @@
 package hospital.guest;
 
+import hospital.status.ERTPriorityStatus;
 import hospital.worker.Doctor;
 import hospital.worker.Human;
 
@@ -8,6 +9,7 @@ public class ERTransport<T extends Human> {
     private Doctor doctor;
     private T passenger;
     private String carNumber;
+    private ERTPriorityStatus ertPriority;
 
     public ERTransport(Doctor doctor, T passenger, String carNumber) {
         this.doctor = doctor;
@@ -43,5 +45,13 @@ public class ERTransport<T extends Human> {
         System.out.println("The passenger: " + passenger.getFirstName() + " " + passenger.getLastName() + " is arrived");
         T passengerOutOfTheCar = passenger;
         passenger = null;
+    }
+
+    public ERTPriorityStatus getErtPriority() {
+        return ertPriority;
+    }
+
+    public void setErtPriority(ERTPriorityStatus ertPriority) {
+        this.ertPriority = ertPriority;
     }
 }

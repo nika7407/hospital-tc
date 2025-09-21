@@ -3,13 +3,19 @@ package hospital;
 import hospital.administration.Appointment;
 import hospital.administration.AppointmentService;
 import hospital.administration.EmailRegistration;
+import hospital.administration.FinancialRecord;
 import hospital.administration.Hospital;
 import hospital.administration.PatientCheckup;
+import hospital.administration.PatientRegistration;
+import hospital.administration.PatientToReport;
 import hospital.administration.VaccinationBooth;
+import hospital.administration.VaccinationProcedure;
 import hospital.building.Apparatus;
 import hospital.building.Department;
+import hospital.drug.Drug;
 import hospital.drug.DrugAssignmentService;
 import hospital.drug.DrugDelivery;
+import hospital.drug.DrugRegistration;
 import hospital.drug.FluVaccine;
 import hospital.drug.MeaslesVaccine;
 import hospital.drug.Painkiller;
@@ -22,7 +28,12 @@ import hospital.guest.HospitalGuest;
 import hospital.guest.PatientVisitor;
 import hospital.sertification.Certificate;
 import hospital.sertification.FirstHelpCertification;
-import hospital.worker.CardiologySpetialazation;
+import hospital.status.DrugSafetyStatus;
+import hospital.status.ERTPriorityStatus;
+import hospital.status.HospitalVisitorStatus;
+import hospital.status.PatientIllness;
+import hospital.status.PatientStatus;
+import hospital.worker.CardiologySpecialization;
 import hospital.worker.Doctor;
 import hospital.worker.Nurse;
 import hospital.worker.Patient;
@@ -36,6 +47,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BinaryOperator;
 
 public class Main {
 
@@ -73,7 +85,7 @@ public class Main {
 
         Patient patient1 = new Patient("nino", "tavadze", 32, "tavadze.@email.ru",
                 "12345", LocalDateTime.now(), 3, false);
-        Patient patient2 = new Patient("giorgi", "topuria", 35, "topuria@idk.com",
+        Patient patient2 = new Patient("giorgi", "kitia", 35, "kitia@idk.com",
                 "123456", LocalDateTime.now(), 7, true);
         Patient patient3 = new Patient("mariam", "chikovani", 23, "chikovani@email.ge",
                 "1234567", LocalDateTime.now(), 5, false);
@@ -83,6 +95,9 @@ public class Main {
         Nurse nurse2 = new Nurse("vakhtang", "shatirishvili",
                 35, "shatirishvili@kideRaMovifiqro.ge",
                 8, false);
+
+        patient1.setPatientStatus(PatientStatus.UNDER_CARE);
+        patient2.setPatientIllness(PatientIllness.FLU);
 
         try (EmailRegistration emailRegistration = new EmailRegistration(patient1)) {
             emailRegistration.registerEmail();
@@ -99,7 +114,7 @@ public class Main {
         VaccinationBooth.checkForTheVaccination(fluVaccine, patient1);
         VaccinationBooth.checkForTheVaccination(measlesVaccine, patient1);
 
-        Spetialization cardiologySpetialazation = new CardiologySpetialazation();
+        Spetialization cardiologySpetialazation = new CardiologySpecialization();
         doctor3.setSpetialization(cardiologySpetialazation);
 
         Certificate firstHelpCert = new FirstHelpCertification(LocalDateTime.now().plusDays(30));
@@ -114,9 +129,8 @@ public class Main {
             System.out.println("Try again!");
         }
 
-        PatientVisitor patientVisitor = new PatientVisitor(patient1, "someGuestId", "kaxa", true);
-
         Painkiller painkiller = new Painkiller("noshpa", 3);
+        painkiller.setSafetyStatus(DrugSafetyStatus.SAFE_FOR_CHILDREN);
         TestDrug testDrug = new TestDrug("experimentDrug", "Do not use on blind children or deaf elders");
 
         //assigning drugs,
@@ -154,25 +168,26 @@ public class Main {
         AppointmentService.completeAppointment(appointment3);
 
         // Main hospital class
-        Map<String, Department> departmentMap = new HashMap<>();
-        departmentMap.put(cardiology.getName(), cardiology);
-        departmentMap.put(surgery.getName(), surgery);
+        Map<String, Department> departments = new HashMap<>();
+        departments.put(cardiology.getName(), cardiology);
+        departments.put(surgery.getName(), surgery);
         List<Appointment> appointmentList = Arrays.asList(appointment1, appointment2, appointment3);
         Hospital hospital = new Hospital(
                 "republic hospital",
-                departmentMap,
+                departments,
                 appointmentList
         );
 
         //adding guests
         Set<HospitalGuest> guests = new HashSet<>();
         PatientVisitor patientVisitor3 = new PatientVisitor(patient1, "someGuestId", "kaxa", true);
-        guests.add(patientVisitor);
+        patientVisitor3.setStatus(HospitalVisitorStatus.VISITING);
         hospital.setGuests(guests);
         System.out.println("\nHospital Class initiated!");
 
         //emergency responce transport
         ERTransport<Patient> erCar = new ERTransport<>(doctor1, patient2, "car42");
+        erCar.setErtPriority(ERTPriorityStatus.HIGH_PRIORITY);
         erCar.arrivedAtHospital();
 
         DrugDelivery<Painkiller> drugDelivery = new DrugDelivery<>("DrugOnTime");
@@ -222,5 +237,33 @@ public class Main {
 
         }
 
+        // records
+        FinancialRecord financialRecord1 = new FinancialRecord("123", doctor1);
+        hospital.addRecords(financialRecord1);
+
+        //lambdas
+        VaccinationProcedure.testForVaccine(patientSet);
+        //checking the more difficult patient
+        BinaryOperator<Patient> checkDifficulty = (pat1, pat2) -> {
+            int difficulty1 = pat1.getDifficultyScale();
+            int difficulty2 = pat2.getDifficultyScale();
+            if (difficulty1 > difficulty2 || difficulty1 == difficulty2) {
+                return pat1;
+            } else {
+                return pat2;
+            }
+        };
+        System.out.println("\n" + checkDifficulty.apply(patient1, patient2).getLastName()
+                + " is more difficult and needs help!");
+
+        DrugRegistration drugRegistration = new DrugRegistration();
+        Drug aspirin = new Drug("nurofen");
+        drugRegistration.registerDrug(aspirin, d -> System.out.println("registering " + d.getName()));
+        if (drugRegistration.isRegistered(aspirin)) {
+            System.out.println("nurofen is registered!");
+        }
+
+        Patient defaulPatient = PatientRegistration.register();
+        PatientToReport.report(defaulPatient);
     }
 }

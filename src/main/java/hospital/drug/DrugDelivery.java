@@ -1,5 +1,7 @@
 package hospital.drug;
 
+import java.util.function.Consumer;
+
 public class DrugDelivery<D extends Drug> {
 
     private String deliveryCompany;
@@ -26,11 +28,15 @@ public class DrugDelivery<D extends Drug> {
     }
 
     public void deliverDrug() {
+        Consumer<D> drugUnload = d -> {
+            if (drugToDeliver == null) {
+                System.out.println("there's no drugs to deliver");
+            }
 
-        if (drugToDeliver == null) {
-            System.out.println("there's no drugs to deliver");
-        }
-        System.out.println("\nDrug: " + drugToDeliver.getName() + " is delivered");
-        drugToDeliver = null;
+            System.out.println("\nDrug: " + drugToDeliver.getName() + " is delivered");
+            drugToDeliver = null;
+        };
+
+        drugUnload.accept(drugToDeliver);
     }
 }

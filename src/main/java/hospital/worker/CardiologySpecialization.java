@@ -1,6 +1,6 @@
 package hospital.worker;
 
-public class CardiologySpetialazation implements Spetialization {
+public class CardiologySpecialization implements Spetialization {
 
     @Override
     public void printSpetialization() {

@@ -1,10 +1,12 @@
 package hospital.guest;
 
+import hospital.status.HospitalVisitorStatus;
 import hospital.worker.Patient;
 
 public class PatientVisitor extends HospitalGuest {
 
     private Patient patientToVisit;
+    private HospitalVisitorStatus status;
 
     public PatientVisitor(Patient patientToVisit, String guestId,
                           String name, boolean allowed) {
@@ -33,6 +35,14 @@ public class PatientVisitor extends HospitalGuest {
 
     public void setPatientToVisit(Patient patientToVisit) {
         this.patientToVisit = patientToVisit;
+    }
+
+    public HospitalVisitorStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(HospitalVisitorStatus status) {
+        this.status = status;
     }
 
     @Override

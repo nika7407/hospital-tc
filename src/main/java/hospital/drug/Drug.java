@@ -1,10 +1,13 @@
 package hospital.drug;
 
+import hospital.status.DrugSafetyStatus;
+
 public class Drug {
 
     protected String name;
     //default state ALWAYS not aprroved by medics unitll proven otherwise
     private boolean aprroved = false;
+    private DrugSafetyStatus safetyStatus;
 
     public Drug(String name) {
         this.name = name;
@@ -24,6 +27,14 @@ public class Drug {
 
     public void setAprroved(boolean aprroved) {
         aprroved = aprroved;
+    }
+
+    public DrugSafetyStatus getSafetyStatus() {
+        return safetyStatus;
+    }
+
+    public void setSafetyStatus(DrugSafetyStatus safetyStatus) {
+        this.safetyStatus = safetyStatus;
     }
 
     @Override

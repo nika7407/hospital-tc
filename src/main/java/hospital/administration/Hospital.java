@@ -3,6 +3,7 @@ package hospital.administration;
 import hospital.building.Department;
 import hospital.guest.HospitalGuest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,6 +14,7 @@ public class Hospital {
     private Map<String, Department> departments;
     private List<Appointment> appointments;
     private Set<HospitalGuest> guests;
+    private List<FinancialRecord> records = new ArrayList<>();
 
     public Hospital(String name, Map<String, Department> departments, List<Appointment> appointments) {
         this.name = name;
@@ -50,5 +52,13 @@ public class Hospital {
 
     public void setGuests(Set<HospitalGuest> guests) {
         this.guests = guests;
+    }
+
+    public List<FinancialRecord> getRecords() {
+        return records;
+    }
+
+    public void addRecords(FinancialRecord record) {
+        records.add(records.size(), record);
     }
 }
