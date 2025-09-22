@@ -53,7 +53,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BinaryOperator;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.function.ToIntFunction;
 
 public class Main {
 
@@ -194,11 +197,25 @@ public class Main {
         //emergency responce transport
         ERTransport<Patient> erCar = new ERTransport<>(doctor1, patient2, "car42");
         erCar.setErtPriority(ERTPriorityStatus.HIGH_PRIORITY);
-        erCar.arrivedAtHospital();
+
+        Runnable arrival = () -> {
+            System.out.println("The passenger arrived!");
+        };
+
+        erCar.arrivedAtHospital(arrival);
 
         DrugDelivery<Painkiller> drugDelivery = new DrugDelivery<>("DrugOnTime");
         drugDelivery.setDrugToDeliver(painkiller);
-        drugDelivery.deliverDrug();
+
+        Consumer<Drug> drugArrival = d -> {
+            if (d == null) {
+                System.out.println("there's no drugs to deliver");
+            }
+            System.out.println("\nDrug: " + d.getName() + " is delivered");
+            d = null;
+        };
+
+        drugDelivery.deliverDrug(drugArrival);
 
         // list
         System.out.println("\ndoctors:");
@@ -248,14 +265,28 @@ public class Main {
         hospital.addRecords(financialRecord1);
 
         //lambdas
+        ToIntFunction<Patient> diffReCheck = (pat) -> {
+            int assignedDrugsAmount = pat.getAssignedDrugs().size();
+
+            if (assignedDrugsAmount > 2) {
+                return pat.getDifficultyScale() + 1;
+            } else {
+                return pat.getDifficultyScale();
+            }
+        };
+        DrugAssignmentService.difficultyCheck(patient3, diffReCheck);
 
         Supplier<Drug> defaultDrug = () -> {
             return new Drug("defaultDrug");
         };
-
         DrugGenerator.generate(defaultDrug);
 
-        VaccinationProcedure.testForVaccine(patientSet);
+        Predicate<Patient> vaccinationNeeded = patient -> {
+            return !patient.getVaccines().isEmpty();
+        };
+
+        VaccinationProcedure.testForVaccine(patientSet, vaccinationNeeded);
+
         //checking the more difficult patient
         BinaryOperator<Patient> checkDifficulty = (pat1, pat2) -> {
             int difficulty1 = pat1.getDifficultyScale();

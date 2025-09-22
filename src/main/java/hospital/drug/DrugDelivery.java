@@ -27,16 +27,7 @@ public class DrugDelivery<D extends Drug> {
         this.drugToDeliver = drugToDeliver;
     }
 
-    public void deliverDrug() {
-        Consumer<D> drugUnload = d -> {
-            if (drugToDeliver == null) {
-                System.out.println("there's no drugs to deliver");
-            }
-
-            System.out.println("\nDrug: " + drugToDeliver.getName() + " is delivered");
-            drugToDeliver = null;
-        };
-
+    public void deliverDrug(Consumer<Drug> drugUnload) {
         drugUnload.accept(drugToDeliver);
     }
 }

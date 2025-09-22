@@ -41,16 +41,10 @@ public class ERTransport<T extends Human> {
         this.carNumber = carNumber;
     }
 
-    public void arrivedAtHospital() {
-        Runnable arrival = () -> {
-            System.out.println("The passenger: " + passenger.getFirstName() + " " + passenger.getLastName() + " is arrived");
-            T passengerOutOfTheCar = passenger;
-            passenger = null;
-        };
-
+    public void arrivedAtHospital(Runnable arrival) {
         arrival.run();
+        passenger = null;
     }
-
 
     public ERTPriorityStatus getErtPriority() {
         return ertPriority;

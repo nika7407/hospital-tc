@@ -26,17 +26,7 @@ public class DrugAssignmentService {
         System.out.println("Drug assigned for " + patient.getFirstName());
     }
 
-    public static void difficultyCheck(Patient patient) {
-
-        ToIntFunction<Patient> diffReCheck = (pat) -> {
-            int assignedDrugsAmount = patient.getAssignedDrugs().size();
-
-            if (assignedDrugsAmount > 2) {
-                return pat.getDifficultyScale() + 1;
-            } else {
-                return pat.getDifficultyScale();
-            }
-        };
+    public static void difficultyCheck(Patient patient, ToIntFunction<Patient> diffReCheck) {
 
         patient.setDifficultyScale(diffReCheck.applyAsInt(patient));
     }
