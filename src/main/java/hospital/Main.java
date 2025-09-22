@@ -15,6 +15,7 @@ import hospital.building.Department;
 import hospital.drug.Drug;
 import hospital.drug.DrugAssignmentService;
 import hospital.drug.DrugDelivery;
+import hospital.drug.DrugGenerator;
 import hospital.drug.DrugRegistration;
 import hospital.drug.FluVaccine;
 import hospital.drug.MeaslesVaccine;
@@ -26,7 +27,11 @@ import hospital.exception.WrongEmailException;
 import hospital.guest.ERTransport;
 import hospital.guest.HospitalGuest;
 import hospital.guest.PatientVisitor;
+import hospital.lambda.NurseCertificateRegistration;
+import hospital.lambda.Registration;
+import hospital.lambda.Report;
 import hospital.sertification.Certificate;
+import hospital.sertification.CertificateRegistration;
 import hospital.sertification.FirstHelpCertification;
 import hospital.status.DrugSafetyStatus;
 import hospital.status.ERTPriorityStatus;
@@ -48,6 +53,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BinaryOperator;
+import java.util.function.Supplier;
 
 public class Main {
 
@@ -242,6 +248,13 @@ public class Main {
         hospital.addRecords(financialRecord1);
 
         //lambdas
+
+        Supplier<Drug> defaultDrug = () -> {
+            return new Drug("defaultDrug");
+        };
+
+        DrugGenerator.generate(defaultDrug);
+
         VaccinationProcedure.testForVaccine(patientSet);
         //checking the more difficult patient
         BinaryOperator<Patient> checkDifficulty = (pat1, pat2) -> {
@@ -253,6 +266,7 @@ public class Main {
                 return pat2;
             }
         };
+
         System.out.println("\n" + checkDifficulty.apply(patient1, patient2).getLastName()
                 + " is more difficult and needs help!");
 
@@ -263,7 +277,30 @@ public class Main {
             System.out.println("nurofen is registered!");
         }
 
-        Patient defaulPatient = PatientRegistration.register();
-        PatientToReport.report(defaulPatient);
+        Registration patientRegistration = () -> new Patient(
+                "Default",
+                "Patient",
+                0,
+                "default@email.com",
+                "0000",
+                LocalDateTime.now(),
+                0,
+                false
+        );
+
+        NurseCertificateRegistration certificateRegistration = (nurs, cert) -> {
+            if (nurs.getSertificate() == null) {
+                nurs.setSertificate(cert);
+            }
+        };
+
+        CertificateRegistration.nurseCertification(nurse2, firstHelpCert, certificateRegistration);
+
+        Report report = pat -> {
+            System.out.println("\npatient report: " + pat.getFirstName() + " " + pat.getLastName() + ", age: " + pat.getAge());
+        };
+
+        Patient defaulPatient = PatientRegistration.register(patientRegistration);
+        PatientToReport.report(defaulPatient, report);
     }
 }

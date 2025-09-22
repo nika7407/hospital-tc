@@ -42,10 +42,15 @@ public class ERTransport<T extends Human> {
     }
 
     public void arrivedAtHospital() {
-        System.out.println("The passenger: " + passenger.getFirstName() + " " + passenger.getLastName() + " is arrived");
-        T passengerOutOfTheCar = passenger;
-        passenger = null;
+        Runnable arrival = () -> {
+            System.out.println("The passenger: " + passenger.getFirstName() + " " + passenger.getLastName() + " is arrived");
+            T passengerOutOfTheCar = passenger;
+            passenger = null;
+        };
+
+        arrival.run();
     }
+
 
     public ERTPriorityStatus getErtPriority() {
         return ertPriority;
