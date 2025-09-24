@@ -4,6 +4,7 @@ import hospital.drug.Drug;
 import hospital.drug.Vaccine;
 import hospital.status.PatientIllness;
 import hospital.status.PatientStatus;
+import hospital.util.CustomPatientAnnotation;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@CustomPatientAnnotation()
 public class Patient extends Human {
 
     private String medicalId;
@@ -117,4 +119,13 @@ public class Patient extends Human {
         return medicalId != null ? medicalId.hashCode() : 0;
     }
 
+    @Override
+    public String toString() {
+        if (this.getClass().isAnnotationPresent(CustomPatientAnnotation.class)) {
+            String status = this.getClass().getAnnotation(CustomPatientAnnotation.class).status();
+            return "\n THIS PATIENT HAS " + status + "\n" + getFirstName() + " " + getLastName();
+        }
+        return super.toString();
+    }
 }
+

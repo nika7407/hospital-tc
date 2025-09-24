@@ -1,5 +1,6 @@
 package hospital.status;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,9 +13,8 @@ public enum DrugSafetyStatus {
     private static final Map<String, DrugSafetyStatus> nameToStatus = new HashMap<>();
 
     static {
-        for (DrugSafetyStatus status : values()) {
-            nameToStatus.put(status.name().toLowerCase(), status);
-        }
+        Arrays.stream(DrugSafetyStatus.values())
+                .forEach(status -> nameToStatus.put(status.name().toLowerCase(), status));
     }
 
     public static DrugSafetyStatus fromName(String name) {

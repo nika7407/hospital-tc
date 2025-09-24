@@ -11,10 +11,10 @@ public class VaccinationProcedure {
 
         System.out.println("\n Vaccination procedure:");
 
-        patients.forEach(patient -> {
-            if (vaccinationNeeded.test(patient)) {
-                System.out.println(patient.getLastName() + " needs Vaccination!");
-            }
-        });
+        patients.stream()
+                .filter(vaccinationNeeded)
+                .forEach(patient ->
+                        System.out.println(patient.getLastName() + " needs Vaccination!")
+                );
     }
 }

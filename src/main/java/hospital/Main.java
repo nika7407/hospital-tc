@@ -2,6 +2,7 @@ package hospital;
 
 import hospital.administration.Appointment;
 import hospital.administration.AppointmentService;
+import hospital.administration.DepartmentFiltration;
 import hospital.administration.EmailRegistration;
 import hospital.administration.FinancialRecord;
 import hospital.administration.Hospital;
@@ -38,6 +39,7 @@ import hospital.status.ERTPriorityStatus;
 import hospital.status.HospitalVisitorStatus;
 import hospital.status.PatientIllness;
 import hospital.status.PatientStatus;
+import hospital.util.ReflectionMaker;
 import hospital.worker.CardiologySpecialization;
 import hospital.worker.Doctor;
 import hospital.worker.Nurse;
@@ -60,7 +62,7 @@ import java.util.function.ToIntFunction;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         //initing departments
         Map<Patient, String> cardiologyNotes = new HashMap<>();
@@ -98,6 +100,14 @@ public class Main {
                 "123456", LocalDateTime.now(), 7, true);
         Patient patient3 = new Patient("mariam", "chikovani", 23, "chikovani@email.ge",
                 "1234567", LocalDateTime.now(), 5, false);
+        Patient patient4 = new Patient("zuka", "kintiraia", 45, "zuka@gmail.ge",
+                "041241", LocalDateTime.now(), 2, false);
+        Patient patient5 = new Patient("mari", "kikaleishvili", 99, "mariiii@gmail.ge",
+                "897742", LocalDateTime.now(), 8, false);
+
+        //annotated
+        System.out.println("\n" + patient2.toString());
+
         Nurse nurse1 = new Nurse("tamar", "batsikadze",
                 29, "batsikadze@idk.ge",
                 5, true);
@@ -154,6 +164,8 @@ public class Main {
         cardiology.getDoctors().add(doctor3);
         cardiology.getPatients().add(patient1);
         cardiology.getPatients().add(patient3);
+        cardiology.getPatients().add(patient4);
+        cardiology.getPatients().add(patient5);
         cardiology.getNurses().add(nurse1);
         cardiology.getApparatus().add(new Apparatus("ekg", "heart scanner", false, cardiology));
         cardiology.getPatientNotes().put(patient1, "Needs regular EKG");
@@ -220,15 +232,19 @@ public class Main {
         // list
         System.out.println("\ndoctors:");
         List<Doctor> docList = cardiology.getDoctors();
+        Map<String, Spetialization> doctorMap = DepartmentFiltration.mapDoctors(docList);
+
+        System.out.println("\nAmount of expirienced Doctors:"
+                + DepartmentFiltration.countExpiriencedDoctors(docList));
+
+        List<String> fullNames = DepartmentFiltration.getAllFullNames(docList);
+
         System.out.println("senior doctor: " + docList.getFirst().getLastName());
-        for (Doctor doctor : docList) {
 
-            if (doctor.getExpirienceYears() < 1) {
-                docList.remove(doctor);
-            }
-            System.out.println(doctor.getFirstName() + " " + doctor.getLastName());
+        docList.stream()
+                .filter(doctor -> doctor.getExpirienceYears() < 1)
+                .forEach(doctor -> System.out.println(doctor.getFirstName() + " " + doctor.getLastName()));
 
-        }
 
         System.out.println("total " + cardiology.getDoctors().size());
 
@@ -236,12 +252,13 @@ public class Main {
         System.out.println("\npatients in cardiology");
         Set<Patient> patientSet = cardiology.getPatients();
 
-        Patient firstPatient = patientSet.iterator().next();
-        System.out.println("first patient: " + firstPatient.getFirstName() + " " + firstPatient.getLastName());
+        patientSet.stream().findFirst().ifPresent(firstPatient ->
+                System.out.println("first patient: " + firstPatient.getFirstName() + " " + firstPatient.getLastName()));
 
         for (Patient p : cardiology.getPatients()) {
             System.out.println(p.getFirstName() + " " + p.getLastName());
         }
+
         System.out.println("total " + cardiology.getPatients().size());
 
         if (cardiology.getPatients().isEmpty()) {
@@ -331,7 +348,14 @@ public class Main {
             System.out.println("\npatient report: " + pat.getFirstName() + " " + pat.getLastName() + ", age: " + pat.getAge());
         };
 
+        Predicate<Patient> filter = patient -> patient.getDifficultyScale() < 5;
+        DepartmentFiltration.filterPatientsAndReport(cardiology.getPatients().stream().toList(), filter);
+
         Patient defaulPatient = PatientRegistration.register(patientRegistration);
         PatientToReport.report(defaulPatient, report);
+
+        //refl
+        ReflectionMaker.analyzeReflect(doctor1);
+        ReflectionMaker.createDoctorWithReflection(doctor1);
     }
 }
