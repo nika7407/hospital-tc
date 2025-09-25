@@ -1,8 +1,10 @@
 package hospital.guest;
 
 import hospital.status.HospitalVisitorStatus;
+import hospital.util.CustomContaminationAnnotation;
 import hospital.worker.Patient;
 
+@CustomContaminationAnnotation(status = "OUTSIDE CONTAMINATION")
 public class PatientVisitor extends HospitalGuest {
 
     private Patient patientToVisit;

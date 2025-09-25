@@ -50,4 +50,10 @@ public class DepartmentFiltration {
                 .map(person -> person.getFirstName() + " " + person.getLastName())
                 .collect(Collectors.toList());
     }
+
+    public static <T> List<T> flattenList(List<List<T>> notFlatList) {
+        return notFlatList.stream()
+                .flatMap(List::stream)
+                .toList();
+    }
 }

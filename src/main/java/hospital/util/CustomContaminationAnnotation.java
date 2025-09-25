@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CustomPatientAnnotation {
+public @interface CustomContaminationAnnotation {
 
-    String status() default "SPECIAL STATUS";
+    String status() default "CONTAMINATION STATUS";
 }

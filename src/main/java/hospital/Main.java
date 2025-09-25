@@ -2,6 +2,7 @@ package hospital;
 
 import hospital.administration.Appointment;
 import hospital.administration.AppointmentService;
+import hospital.administration.ContaminationCheck;
 import hospital.administration.DepartmentFiltration;
 import hospital.administration.EmailRegistration;
 import hospital.administration.FinancialRecord;
@@ -354,8 +355,19 @@ public class Main {
         Patient defaulPatient = PatientRegistration.register(patientRegistration);
         PatientToReport.report(defaulPatient, report);
 
+        List<Patient> patientListCardiology = cardiology.getPatients()
+                .stream().toList();
+        List<Patient> patientListSurgery = surgery.getPatients()
+                .stream().toList();
+
+        List<List<Patient>> patientLists = new ArrayList<>(List.of(patientListCardiology, patientListSurgery));
+
+        System.out.println(DepartmentFiltration.flattenList(patientLists));
         //refl
         ReflectionMaker.analyzeReflect(doctor1);
         ReflectionMaker.createDoctorWithReflection(doctor1);
+
+        ContaminationCheck.Check(patientVisitor3);
+        ContaminationCheck.Check(doctor1);
     }
 }
