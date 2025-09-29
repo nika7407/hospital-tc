@@ -253,8 +253,9 @@ public class Main {
         System.out.println("\npatients in cardiology");
         Set<Patient> patientSet = cardiology.getPatients();
 
-        patientSet.stream().findFirst().ifPresent(firstPatient ->
-                System.out.println("first patient: " + firstPatient.getFirstName() + " " + firstPatient.getLastName()));
+        patientSet.stream()
+                .findFirst()
+                .ifPresent(firstPatient -> System.out.println("first patient: " + firstPatient.getFirstName() + " " + firstPatient.getLastName()));
 
         for (Patient p : cardiology.getPatients()) {
             System.out.println(p.getFirstName() + " " + p.getLastName());
@@ -356,9 +357,11 @@ public class Main {
         PatientToReport.report(defaulPatient, report);
 
         List<Patient> patientListCardiology = cardiology.getPatients()
-                .stream().toList();
+                .stream()
+                .toList();
         List<Patient> patientListSurgery = surgery.getPatients()
-                .stream().toList();
+                .stream()
+                .toList();
 
         List<List<Patient>> patientLists = new ArrayList<>(List.of(patientListCardiology, patientListSurgery));
 
