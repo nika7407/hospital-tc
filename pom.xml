@@ -6,25 +6,36 @@
     <modelVersion>4.0.0</modelVersion>
 
     <version>1.0</version>
+    <groupId>com.solvd</groupId>
+    <artifactId>hospital-tc</artifactId>
+    <packaging>jar</packaging>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
                 <configuration>
                     <source>22</source>
                     <target>22</target>
                     <compilerArgs>--enable-preview</compilerArgs>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>med.hospital.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
-    <groupId>med</groupId>
-
-    <artifactId>hospital-tc</artifactId>
-
-    <packaging>jar</packaging>
-
 
 </project>
