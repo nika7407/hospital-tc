@@ -41,12 +41,14 @@ import com.solvd.hospitaltc.status.HospitalVisitorStatus;
 import com.solvd.hospitaltc.status.PatientIllness;
 import com.solvd.hospitaltc.status.PatientStatus;
 import com.solvd.hospitaltc.util.ReflectionMaker;
+import com.solvd.hospitaltc.util.TextBookUtil;
 import com.solvd.hospitaltc.worker.CardiologySpecialization;
 import com.solvd.hospitaltc.worker.Doctor;
 import com.solvd.hospitaltc.worker.Nurse;
 import com.solvd.hospitaltc.worker.Patient;
 import com.solvd.hospitaltc.worker.Spetialization;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -372,5 +374,8 @@ public class Main {
 
         ContaminationCheck.Check(patientVisitor3);
         ContaminationCheck.Check(doctor1);
+
+        File book = new File("src/main/resources/Medical Systems In The Digital age.txt");
+        TextBookUtil.CountUniqueWords(book);
     }
 }
