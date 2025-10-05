@@ -2,6 +2,8 @@ package com.solvd.hospitaltc.administration;
 
 import com.solvd.hospitaltc.building.Department;
 import com.solvd.hospitaltc.guest.HospitalGuest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +12,7 @@ import java.util.Set;
 
 public class Hospital {
 
+    private static final Logger log = LogManager.getLogger(Hospital.class);
     private String name;
     private Map<String, Department> departments;
     private List<Appointment> appointments;
@@ -60,5 +63,9 @@ public class Hospital {
 
     public void addRecords(FinancialRecord record) {
         records.add(records.size(), record);
+    }
+
+    public void hospitalActivity(){
+        log.info("hospital is active!");
     }
 }
