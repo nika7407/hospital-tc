@@ -1,14 +1,18 @@
 package com.solvd.hospitaltc.drug;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.Objects;
 
 public class FluVaccine implements Vaccine {
 
+    private static final Logger log = LogManager.getLogger(FluVaccine.class);
     private String name;
 
     @Override
     public void vaccinate() {
-        System.out.println("\nyou have been vaccinated from the flu" +
+        log.info("\nyou have been vaccinated from the flu" +
                 "\ndon't do sports for 5 days");
     }
 

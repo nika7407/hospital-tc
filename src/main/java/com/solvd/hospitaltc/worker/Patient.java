@@ -4,6 +4,8 @@ import com.solvd.hospitaltc.drug.Drug;
 import com.solvd.hospitaltc.drug.Vaccine;
 import com.solvd.hospitaltc.status.PatientIllness;
 import com.solvd.hospitaltc.status.PatientStatus;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ import java.util.Set;
 
 public class Patient extends Human {
 
+    private static final Logger log = LogManager.getLogger(Patient.class);
     private String medicalId;
     private LocalDateTime commitDate;
     private int difficultyScale;
@@ -46,7 +49,7 @@ public class Patient extends Human {
 
     public void setDifficultyScale(int difficultyScale) {
         if (difficultyScale < 0 || difficultyScale > 10) {
-            System.out.println("incorrect difficulty");
+            log.warn("incorrect difficulty");
             return;
         }
         this.difficultyScale = difficultyScale;

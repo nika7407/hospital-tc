@@ -3,8 +3,12 @@ package com.solvd.hospitaltc.administration;
 import com.solvd.hospitaltc.drug.Vaccine;
 import com.solvd.hospitaltc.exception.WrongAgeRuntimeException;
 import com.solvd.hospitaltc.worker.Patient;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class VaccinationBooth {
+
+    private static final Logger logger = LogManager.getLogger(VaccinationBooth.class);
 
     public static void checkForTheVaccination(Vaccine vaccine, Patient patient) {
 
@@ -16,11 +20,9 @@ public class VaccinationBooth {
 
         boolean added = patient.getVaccines().add(vaccine);
         if (added) {
-            System.out.println("\n" + patient.getFirstName() + "you have been vaccinated!"
-                    + "\namount of vaccines = " + patient.getVaccines().size());
+            logger.info("{}you have been vaccinated! amount of vaccines = {}", patient.getFirstName(), patient.getVaccines().size());
         } else {
-            System.out.println("\n" + patient.getFirstName() + " already has this vaccine!"
-                    + "\namount of vaccines = " + patient.getVaccines().size());
+            logger.info("{} already has this vaccine! amount of vaccines = {}", patient.getFirstName(), patient.getVaccines().size());
         }
     }
 }

@@ -47,6 +47,8 @@ import com.solvd.hospitaltc.worker.Doctor;
 import com.solvd.hospitaltc.worker.Nurse;
 import com.solvd.hospitaltc.worker.Patient;
 import com.solvd.hospitaltc.worker.Spetialization;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.time.LocalDateTime;
@@ -64,6 +66,8 @@ import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
 public class Main {
+
+    private static final Logger log = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) throws Exception {
 
@@ -109,7 +113,7 @@ public class Main {
                 "897742", LocalDateTime.now(), 8, false);
 
         //annotated
-        System.out.println("\n" + patient2.toString());
+        log.info("{}", patient2.toString());
 
         Nurse nurse1 = new Nurse("tamar", "batsikadze",
                 29, "batsikadze@idk.ge",
@@ -124,9 +128,9 @@ public class Main {
         try (EmailRegistration emailRegistration = new EmailRegistration(patient1)) {
             emailRegistration.registerEmail();
         } catch (WrongEmailException e) {
-            System.out.println("incorrect email!");
+            log.error("incorrect email! {}", e.getMessage());
         } catch (Exception e) {
-            System.out.println("Unknown Problem!");
+            log.error("unknown problem {}", e.getMessage());
         }
 
         // polymorphism, and assigning vaccine sets
@@ -146,9 +150,9 @@ public class Main {
         try {
             patientCheckup.checkup(patient1);
         } catch (CheckupException e) {
-            System.out.println("\n" + e.getMessage());
+            log.error("{}", e.getMessage());
         } finally {
-            System.out.println("Try again!");
+            log.info("Try again!");
         }
 
         Painkiller painkiller = new Painkiller("noshpa", 3);
@@ -207,14 +211,14 @@ public class Main {
         PatientVisitor patientVisitor3 = new PatientVisitor(patient1, "someGuestId", "kaxa", true);
         patientVisitor3.setStatus(HospitalVisitorStatus.VISITING);
         hospital.setGuests(guests);
-        System.out.println("\nHospital Class initiated!");
+        log.info("Hospital Class initiated!");
 
         //emergency responce transport
         ERTransport<Patient> erCar = new ERTransport<>(doctor1, patient2, "car42");
         erCar.setErtPriority(ERTPriorityStatus.HIGH_PRIORITY);
 
         Runnable arrival = () -> {
-            System.out.println("The passenger arrived!");
+            log.info("The passenger arrived!");
         };
 
         erCar.arrivedAtHospital(arrival);
@@ -224,60 +228,60 @@ public class Main {
 
         Consumer<Drug> drugArrival = d -> {
             if (d == null) {
-                System.out.println("there's no drugs to deliver");
+                log.warn("there's no drugs to deliver");
             }
-            System.out.println("\nDrug: " + d.getName() + " is delivered");
+            assert d != null;
+            log.info("Drug: {} is delivered", d.getName());
             d = null;
         };
 
         drugDelivery.deliverDrug(drugArrival);
 
         // list
-        System.out.println("\ndoctors:");
+        log.info("doctors:");
         List<Doctor> docList = cardiology.getDoctors();
         Map<String, Spetialization> doctorMap = DepartmentFiltration.mapDoctors(docList);
 
-        System.out.println("\nAmount of expirienced Doctors:"
-                + DepartmentFiltration.countExpiriencedDoctors(docList));
+        log.info("Amount of expirienced Doctors:{}", DepartmentFiltration.countExpiriencedDoctors(docList));
 
         List<String> fullNames = DepartmentFiltration.getAllFullNames(docList);
 
-        System.out.println("senior doctor: " + docList.getFirst().getLastName());
+        log.info("senior doctor: {}", docList.getFirst().getLastName());
 
         docList.stream()
                 .filter(doctor -> doctor.getExpirienceYears() < 1)
-                .forEach(doctor -> System.out.println(doctor.getFirstName() + " " + doctor.getLastName()));
+                .forEach(doctor -> log.info("{} {}", doctor.getFirstName(), doctor.getLastName()));
 
 
-        System.out.println("total " + cardiology.getDoctors().size());
+        log.info("total {}", cardiology.getDoctors().size());
 
         // set
-        System.out.println("\npatients in cardiology");
+        log.info("patients in cardiology");
         Set<Patient> patientSet = cardiology.getPatients();
 
         patientSet.stream()
                 .findFirst()
-                .ifPresent(firstPatient -> System.out.println("first patient: " + firstPatient.getFirstName() + " " + firstPatient.getLastName()));
+                .ifPresent(firstPatient -> log.info("first patient: {} {}", firstPatient.getFirstName(), firstPatient.getLastName()));
 
         for (Patient p : cardiology.getPatients()) {
-            System.out.println(p.getFirstName() + " " + p.getLastName());
+            log.info("{} {}", p.getFirstName(), p.getLastName());
         }
 
-        System.out.println("total " + cardiology.getPatients().size());
+        log.info("total {}", cardiology.getPatients().size());
 
         if (cardiology.getPatients().isEmpty()) {
-            System.out.println("cardiology is empty!");
+            log.info("cardiology is empty!");
         }
 
         // map demo
-        System.out.println("\npatient notes");
+        log.info("\npatient notes");
         Map<Patient, String> notesMap = cardiology.getPatientNotes();
         if (!notesMap.isEmpty()) {
             Map.Entry<Patient, String> firstEntry = notesMap.entrySet().iterator().next();
-            System.out.println("first note: " + firstEntry.getKey().getFirstName() + " - " + firstEntry.getValue());
+            log.info("first note: {} - {}", firstEntry.getKey().getFirstName(), firstEntry.getValue());
         }
         for (Map.Entry<Patient, String> entry : notesMap.entrySet()) {
-            System.out.println(entry.getKey().getFirstName() + " " + entry.getValue());
+            log.info("{} {}", entry.getKey().getFirstName(), entry.getValue());
 
         }
 
@@ -319,14 +323,13 @@ public class Main {
             }
         };
 
-        System.out.println("\n" + checkDifficulty.apply(patient1, patient2).getLastName()
-                + " is more difficult and needs help!");
+        log.info("\n{} is more difficult and needs help!", checkDifficulty.apply(patient1, patient2).getLastName());
 
         DrugRegistration drugRegistration = new DrugRegistration();
         Drug aspirin = new Drug("nurofen");
-        drugRegistration.registerDrug(aspirin, d -> System.out.println("registering " + d.getName()));
+        drugRegistration.registerDrug(aspirin, d -> log.info("registering {}", d.getName()));
         if (drugRegistration.isRegistered(aspirin)) {
-            System.out.println("nurofen is registered!");
+            log.info("nurofen is registered!");
         }
 
         Registration patientRegistration = () -> new Patient(
@@ -349,7 +352,7 @@ public class Main {
         CertificateRegistration.nurseCertification(nurse2, firstHelpCert, certificateRegistration);
 
         Report report = pat -> {
-            System.out.println("\npatient report: " + pat.getFirstName() + " " + pat.getLastName() + ", age: " + pat.getAge());
+            log.info("\npatient report: {} {}, age: {}", pat.getFirstName(), pat.getLastName(), pat.getAge());
         };
 
         Predicate<Patient> filter = patient -> patient.getDifficultyScale() < 5;
@@ -367,7 +370,7 @@ public class Main {
 
         List<List<Patient>> patientLists = new ArrayList<>(List.of(patientListCardiology, patientListSurgery));
 
-        System.out.println(DepartmentFiltration.flattenList(patientLists));
+        log.info(String.valueOf(DepartmentFiltration.flattenList(patientLists)));
         //refl
         ReflectionMaker.analyzeReflect(doctor1);
         ReflectionMaker.createDoctorWithReflection(doctor1);

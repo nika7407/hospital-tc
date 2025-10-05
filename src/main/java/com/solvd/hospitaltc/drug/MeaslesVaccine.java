@@ -1,16 +1,20 @@
 package com.solvd.hospitaltc.drug;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.Objects;
 
 public final class MeaslesVaccine implements Vaccine {
 
     private final static int daysOfNotDrinking = 3;
+    private static final Logger log = LogManager.getLogger(MeaslesVaccine.class);
     private String name;
 
     @Override
     public void vaccinate() {
-        System.out.println("\nyou have been vaccinated by: measles vaccine" +
-                "\ndont drink for " + daysOfNotDrinking + " days");
+        log.info("you have been vaccinated by: measles vaccine" +
+                "dont drink for " + daysOfNotDrinking + " days");
     }
 
     @Override
@@ -19,7 +23,7 @@ public final class MeaslesVaccine implements Vaccine {
     }
 
     public static void isVaccineHarmful() {
-        System.out.println("\nno the vaccine is not harmful!");
+        log.info("no the vaccine is not harmful!");
     }
 
     @Override

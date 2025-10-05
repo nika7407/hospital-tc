@@ -3,10 +3,13 @@ package com.solvd.hospitaltc.guest;
 import com.solvd.hospitaltc.status.HospitalVisitorStatus;
 import com.solvd.hospitaltc.util.CustomContaminationAnnotation;
 import com.solvd.hospitaltc.worker.Patient;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @CustomContaminationAnnotation(status = "OUTSIDE CONTAMINATION")
 public class PatientVisitor extends HospitalGuest {
 
+    private static final Logger log = LogManager.getLogger(PatientVisitor.class);
     private Patient patientToVisit;
     private HospitalVisitorStatus status;
 
@@ -20,15 +23,15 @@ public class PatientVisitor extends HospitalGuest {
     @Override
     protected void checkIsAllowed() {
         if (allowed) {
-            System.out.println("Hello, " + name + "welcome!");
+            log.info("Hello, {}welcome!", name);
         } else {
-            System.out.println("Sorry, " + name + "you've been denied visit to the patient(");
+            log.info("Sorry, {}you've been denied visit to the patient(", name);
         }
     }
 
 
     public void guestVisiting() {
-        System.out.println("Hello, my name is " + name + " i'm visiting " + patientToVisit.getLastName());
+        log.info("Hello, my name is {} i'm visiting {}", name, patientToVisit.getLastName());
     }
 
     public Patient getPatientToVisit() {

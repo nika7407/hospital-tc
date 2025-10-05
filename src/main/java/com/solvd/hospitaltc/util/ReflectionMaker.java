@@ -1,50 +1,54 @@
 package com.solvd.hospitaltc.util;
 
 import com.solvd.hospitaltc.worker.Doctor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
+import java.util.Arrays;
 
 public class ReflectionMaker {
+
+    private static final Logger log = LogManager.getLogger(ReflectionMaker.class);
 
     public static <T> void analyzeReflect(T object) {
 
         Class<?> clas = object.getClass();
-        System.out.println("\nAnalysing:" + clas.getName());
+        log.info("Analysing:{}", clas.getName());
 
         Field[] fields = clas.getDeclaredFields();
         for (Field field : fields) {
 
             String fieldName = field.getName();
-            System.out.println(fieldName);
+            log.info(fieldName);
             String type = field.getType().getSimpleName();
-            System.out.println(type);
+            log.info(type);
             String modifiers = Modifier.toString(field.getModifiers());
-            System.out.println(modifiers + "\n");
-
+            log.info("{}\n", modifiers);
         }
         Constructor<?>[] constructors = clas.getDeclaredConstructors();
         for (Constructor<?> constructor : constructors) {
             String constructorName = constructor.getName();
-            System.out.println(constructorName);
+            log.info(constructorName);
             Parameter[] parameters = constructor.getParameters();
-            System.out.println(parameters);
+            log.info(Arrays.toString(parameters));
             String modifiers = Modifier.toString(constructor.getModifiers());
-            System.out.println(modifiers + "\n");
+            log.info("{}\n", modifiers);
         }
         Method[] methods = clas.getDeclaredMethods();
         for (Method method : methods) {
             String methodName = method.getName();
-            System.out.println(methodName);
+            log.info(methodName);
             String returnType = method.getReturnType().getSimpleName();
-            System.out.println(returnType);
+            log.info(returnType);
             Parameter[] parameters = method.getParameters();
-            System.out.println(parameters);
+            log.info(Arrays.toString(parameters));
             String modifiers = Modifier.toString(method.getModifiers());
-            System.out.println(modifiers + "\n");
+            log.info("{}\n", modifiers);
         }
     }
 

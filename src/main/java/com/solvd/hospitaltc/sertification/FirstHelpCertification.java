@@ -1,11 +1,15 @@
 package com.solvd.hospitaltc.sertification;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
 
 public final class FirstHelpCertification implements Certificate {
 
+    private static final Logger log = LogManager.getLogger(FirstHelpCertification.class);
     private LocalDateTime expiresAt;
 
     public FirstHelpCertification(LocalDateTime expiresAt) {
@@ -22,7 +26,7 @@ public final class FirstHelpCertification implements Certificate {
 
     @Override
     public void showCertification() {
-        System.out.println("this user is certified to do first help!");
+        log.info("this user is certified to do first help!");
     }
 
     @Override

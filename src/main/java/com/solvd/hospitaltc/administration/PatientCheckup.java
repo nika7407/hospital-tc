@@ -3,12 +3,17 @@ package com.solvd.hospitaltc.administration;
 import com.solvd.hospitaltc.exception.CheckupException;
 import com.solvd.hospitaltc.exception.MissingPatientRuntimeException;
 import com.solvd.hospitaltc.worker.Patient;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public final class PatientCheckup implements Checkup<Patient> {
+    private static final Logger logger = LogManager.getLogger(PatientCheckup.class);
+
 
     public void checkup(Patient patientToCheck) throws CheckupException {
 
         if (patientToCheck == null) {
+            logger.error("MissingPatientRuntimeException(\"Missing the patient!\");");
             throw new MissingPatientRuntimeException("Missing the patient!");
         }
 
@@ -27,6 +32,6 @@ public final class PatientCheckup implements Checkup<Patient> {
             checkup.append("\nrecommendation: keep dosage");
         }
 
-        System.out.println(checkup.toString());
+        logger.info(checkup.toString());
     }
 }

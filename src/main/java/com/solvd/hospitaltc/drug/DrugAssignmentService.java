@@ -1,6 +1,8 @@
 package com.solvd.hospitaltc.drug;
 
 import com.solvd.hospitaltc.worker.Patient;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -8,11 +10,12 @@ import java.util.function.ToIntFunction;
 
 public class DrugAssignmentService {
 
+    private static final Logger log = LogManager.getLogger(DrugAssignmentService.class);
+
     public static void assignDrug(Drug drug, Patient patient) {
         // unapproved drugs won't be assigned
         if (!drug.isAprroved()) {
-            System.out.println("Sorry," + patient.getFirstName()
-                    + " Drug is not approved for Use\nTalk with your Doctor");
+            log.info("Sorry,{} Drug is not approved for Use, Talk with your Doctor", patient.getFirstName());
             return;
         }
 
@@ -23,7 +26,7 @@ public class DrugAssignmentService {
             patient.setAssignedDrugs(assignedDrugs);
         };
         assignDrug.accept(patient);
-        System.out.println("Drug assigned for " + patient.getFirstName());
+        log.info("Drug assigned for {}", patient.getFirstName());
     }
 
     public static void difficultyCheck(Patient patient, ToIntFunction<Patient> diffReCheck) {

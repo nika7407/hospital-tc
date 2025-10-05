@@ -4,6 +4,8 @@ import com.solvd.hospitaltc.worker.Doctor;
 import com.solvd.hospitaltc.worker.Human;
 import com.solvd.hospitaltc.worker.Patient;
 import com.solvd.hospitaltc.worker.Spetialization;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Map;
@@ -12,16 +14,18 @@ import java.util.stream.Collectors;
 
 public class DepartmentFiltration {
 
+    private static final Logger logger = LogManager.getLogger(DepartmentFiltration.class);
+
     public static List<Patient> filterPatientsAndReport(List<Patient> patients,
                                                         Predicate<Patient> predicate) {
-        System.out.println("\n");
+
         List<Patient> filteredPatients = patients.stream()
                 .filter(predicate)
                 .peek(patient ->
-                        System.out.println(patient.getFirstName() + " " + patient.getLastName()))
+                        logger.info("{} {}", patient.getFirstName(), patient.getLastName()))
                 .collect(Collectors.toList());
 
-        System.out.println("Total filtered patients: " + filteredPatients.size());
+        logger.info("total filtered patients: {}", filteredPatients.size());
 
         return filteredPatients;
     }
@@ -35,7 +39,7 @@ public class DepartmentFiltration {
                         Doctor::getSpetialization
                 ));
 
-        System.out.println("\nDoctors mapped to their Specialisations!");
+        logger.info("Doctors mapped to their Specialisations!");
         return result;
     }
 
