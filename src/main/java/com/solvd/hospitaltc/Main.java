@@ -111,6 +111,8 @@ public class Main {
                 "041241", LocalDateTime.now(), 2, false);
         Patient patient5 = new Patient("mari", "kikaleishvili", 99, "mariiii@gmail.ge",
                 "897742", LocalDateTime.now(), 8, false);
+        Patient patient6 = new Patient("NOTgio", "NOTqorqia", 150, "gio@idkmail.eu",
+                null, LocalDateTime.now(), 2, false);
 
         //annotated
         log.info("{}", patient2.toString());
