@@ -65,7 +65,9 @@ public class Hospital {
         records.add(records.size(), record);
     }
 
-    public void hospitalActivity(){
-        log.info("hospital is active!");
+    public int hospitalActivity(){
+        int amountOfAppointments = appointments.size();
+        log.info("amount of hospital appointments: {}", amountOfAppointments);
+        return  amountOfAppointments;
     }
 }
