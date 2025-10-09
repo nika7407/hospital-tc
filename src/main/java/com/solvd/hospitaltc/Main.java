@@ -40,6 +40,9 @@ import com.solvd.hospitaltc.status.ERTPriorityStatus;
 import com.solvd.hospitaltc.status.HospitalVisitorStatus;
 import com.solvd.hospitaltc.status.PatientIllness;
 import com.solvd.hospitaltc.status.PatientStatus;
+import com.solvd.hospitaltc.thread.Connection;
+import com.solvd.hospitaltc.thread.CustomRunnable;
+import com.solvd.hospitaltc.thread.Pool;
 import com.solvd.hospitaltc.util.ReflectionMaker;
 import com.solvd.hospitaltc.util.TextBookUtil;
 import com.solvd.hospitaltc.worker.CardiologySpecialization;
@@ -59,6 +62,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -68,6 +75,7 @@ import java.util.function.ToIntFunction;
 public class Main {
 
     private static final Logger log = LogManager.getLogger(Main.class);
+    private static final Pool pool = Pool.getInstance(5);
 
     public static void main(String[] args) throws Exception {
 
@@ -382,5 +390,64 @@ public class Main {
 
         File book = new File("src/main/resources/Medical Systems In The Digital age.txt");
         TextBookUtil.CountUniqueWords(book);
+
+        Thread thread1 = new Thread(new CustomRunnable("Registration"));
+        Thread thread2 = new Thread(new CustomRunnable("Express Registration"));
+        thread1.start();
+        thread2.start();
+
+        CompletableFuture<Void> futureCompleted = CompletableFuture.runAsync(() -> {
+            try {
+                log.info("future1 started");
+                TimeUnit.SECONDS.sleep(5);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new IllegalStateException(e);
+            }
+        });
+        log.info("was finished");
+
+        CompletableFuture<Void> futureUNCompleted = CompletableFuture.runAsync(() -> {
+            try {
+                log.info("future2 started");
+                TimeUnit.SECONDS.sleep(20);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new IllegalStateException(e);
+            }
+        });
+
+        CompletableFuture<Void> futureWithTimeout = futureUNCompleted
+                .completeOnTimeout(null, 5, TimeUnit.SECONDS);
+
+        futureCompleted.get();
+        log.info("wasnt finished");
+
+        ExecutorService executor = Executors.newFixedThreadPool(7);
+
+        for (int i = 1; i <= 7; i++) {
+            final int deskNumber = i;
+            executor.submit(() -> {
+                String deskName = "Desk - " + deskNumber;
+                try {
+                    Connection connection = pool.getConnection(30, TimeUnit.SECONDS);
+
+                    if (connection != null) {
+                        //registering
+                        Thread.sleep(10000);
+                        pool.releaseConnection(connection);
+                    } else {
+                        log.warn("{} could not get a connection (timed out)", deskName);
+                    }
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    log.error("{} was interrupted", deskName, e);
+                }
+            });
+        }
+
+        executor.shutdown();
+        log.info("All threads finished");
     }
+
 }
